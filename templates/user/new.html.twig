@@ -1,0 +1,158 @@
+{% extends 'base.html.twig' %}
+{% import _self as formMacros %}
+    {% macro printPayRateForm(payRate) %}
+        <div class="js-pay-rate-container">
+            <div class="form-group row">
+                {{ form_label(payRate.obtainFrom) }}
+                <div class="col-3">
+                    {{ form_widget(payRate.obtainFrom) }}
+                </div>
+                <div class="col-sm-7">
+                    <button class="btn btn-danger float-right js-remove-btn" type="button">Usuń</button>
+                </div>
+            </div>
+            <div class="row form-group">
+
+                {{ form_label(payRate.ratePerHour) }}
+                <div class="col">
+                    {{ form_widget(payRate.ratePerHour) }}
+                </div>
+
+                {{ form_label(payRate.overtimeRate) }}
+                <div class="col">
+                    {{ form_widget(payRate.overtimeRate) }}
+                </div>
+
+            </div>
+        </div>
+    {% endmacro %}
+{% block body %}
+    {{ form_start(userForm) }}
+    <div class="card border-radius-2em mt-5">
+        <div class="card-body border-radius-2em">
+
+            <h5 class="card-title">Dodaj Pracownika</h5>
+        </div>
+        <div class="card-header white-bg">
+
+            <ul class="nav nav-tabs card-header-tabs" id="user-form" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#user-personal" role="tab"
+                       aria-controls="user-main"
+                       aria-selected="true">Podstawowe</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#user-pay-rates" role="tab" aria-controls="history"
+                       aria-selected="false">Rozliczenia</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#user-main3" role="tab" aria-controls="deals"
+                       aria-selected="false">Uprawnienia</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card-body">
+            <div class="tab-content mt-3">
+                <div id="user-personal" class="tab-pane container active">
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(userForm.firstName) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(userForm.lastName) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(userForm.department) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(userForm.email) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(userForm.telephone) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(userForm.street) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(userForm.postalCode) }}
+                        </div>
+                        <div class="col">
+                            {{ form_row(userForm.town) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            {{ form_row(userForm.note) }}
+                        </div>
+                    </div>
+                </div>
+                <div id="user-pay-rates"
+                     data-prototype="{{ formMacros.printPayRateForm(userForm.payRates.vars.prototype)|e('html_attr') }}"
+                     class="tab-pane container fade">
+                    <div class="row">
+                        <button type="button" class="btn btn-primary js-add-payRate">Dodaj nowy okres</button>
+                    </div>
+                    <div id="pay-rates">
+
+                        {% for payRate in userForm.payRates %}
+                            {{ formMacros.printPayRateForm(payRate) }}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div id="user-main3" class="tab-pane container fade">
+                 {{ form_row(userForm.plainPassword) }}
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-center border-bottom-2em white-bg">
+            <button type="submit" class="btn btn-primary width10em">Zapisz</button>
+        </div>
+    </div>
+
+
+    {{ form_end(userForm) }}
+
+{% endblock %}
+    {% block javascript %}
+    {{ parent() }}
+    <script>
+    var $collectionHolder;
+    var count = 0;
+
+    $(document).ready(function() {
+        // taking user payRates
+      $collectionHolder = $('#user-pay-rates');
+        // counting payRates
+      $collectionHolder.find('.js-pay-rate-container').each(function(){
+         count++;
+    });
+
+      var prototype = $collectionHolder.data('prototype');
+        // add new payRate
+      $('.js-add-payRate').on('click',function() {
+        count++;
+         console.log(count);
+         newForm = prototype.replace(/__name__/g,count);
+        console.log(newForm);
+        $('#pay-rates').prepend(newForm);
+      })
+
+        // remove payRate
+       $('.js-remove-btn').on('click',function(e){
+           e.preventDefault();
+           var btn = e.currentTarget;
+           btn.closest('.js-pay-rate-container').remove();
+            })
+
+    })
+    </script>
+{% endblock %}

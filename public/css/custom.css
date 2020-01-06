@@ -1,0 +1,20 @@
+/*bootstrap-ovverrides */
+#bts-override .border-radius-2em {
+    border-radius: 2em!important;
+}
+
+#bts-override .border-bottom-2em {
+    border-bottom-left-radius: 2em;
+    border-bottom-right-radius: 2em;
+
+}
+
+#bts-override .width10em{
+width: 10em;
+}
+#bts-override .white-bg{
+    background-color: #FFFFFF;
+}
+
+
+
