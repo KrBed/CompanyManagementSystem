@@ -1,14 +1,15 @@
-{% extends 'base.html.twig' %}
+{% extends 'user_base.html.twig' %}
+
 {% import _self as formMacros %}
     {% macro printPayRateForm(payRate) %}
         <div class="js-pay-rate-container">
             <div class="form-group row">
                 {{ form_label(payRate.obtainFrom) }}
-                <div class="col-3">
+                <div class="col-3 js-add-btn">
                     {{ form_widget(payRate.obtainFrom) }}
                 </div>
                 <div class="col-sm-7">
-                    <button class="btn btn-danger float-right js-remove-btn" type="button">Usuń</button>
+                    <button class="js-remove-btn btn btn-danger float-right" type="button">Usuń</button>
                 </div>
             </div>
             <div class="row form-group">
@@ -26,12 +27,29 @@
             </div>
         </div>
     {% endmacro %}
+{% block department %}{% endblock %}
+{% block body_columns  %}col-12{% endblock %}
 {% block body %}
+
+    <div class="offset-3 col-6">
+
+
     {{ form_start(userForm) }}
     <div class="card border-radius-2em mt-5">
         <div class="card-body border-radius-2em">
+            {% set formErrors = userForm.vars.errors.form.getErrors(true) %}
 
-            <h5 class="card-title">Dodaj Pracownika</h5>
+            {% if formErrors|length %}
+                <ul>
+                    {% for error in formErrors %}
+                        <li class="alert bg-danger text-white">{{ error.message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <h5 class="card-title">Nowy Pracownik</h5>
+
+            <div class="error">{{ form_errors(userForm) }}
+            </div>
         </div>
         <div class="card-header white-bg">
 
@@ -94,6 +112,7 @@
                             {{ form_row(userForm.note) }}
                         </div>
                     </div>
+
                 </div>
                 <div id="user-pay-rates"
                      data-prototype="{{ formMacros.printPayRateForm(userForm.payRates.vars.prototype)|e('html_attr') }}"
@@ -102,14 +121,13 @@
                         <button type="button" class="btn btn-primary js-add-payRate">Dodaj nowy okres</button>
                     </div>
                     <div id="pay-rates">
-
                         {% for payRate in userForm.payRates %}
                             {{ formMacros.printPayRateForm(payRate) }}
                         {% endfor %}
                     </div>
                 </div>
                 <div id="user-main3" class="tab-pane container fade">
-                 {{ form_row(userForm.plainPassword) }}
+                    {{ form_row(userForm.plainPassword) }}
                 </div>
             </div>
         </div>
@@ -120,15 +138,27 @@
 
 
     {{ form_end(userForm) }}
-
+    </div>
 {% endblock %}
     {% block javascript %}
     {{ parent() }}
     <script>
-    var $collectionHolder;
+     var $collectionHolder;
     var count = 0;
 
+ // remove payrate
+    $(function() {
+    $(document).on("click", '.js-remove-btn', function(e) {
+        e.preventDefault();
+        btn =  e.currentTarget;
+       btn.closest('.js-pay-rate-container').remove();
+    });
+
+});
+
     $(document).ready(function() {
+        //removes added legend by prototype
+        $('legend').remove();
         // taking user payRates
       $collectionHolder = $('#user-pay-rates');
         // counting payRates
@@ -140,19 +170,10 @@
         // add new payRate
       $('.js-add-payRate').on('click',function() {
         count++;
-         console.log(count);
          newForm = prototype.replace(/__name__/g,count);
-        console.log(newForm);
+    
         $('#pay-rates').prepend(newForm);
-      })
-
-        // remove payRate
-       $('.js-remove-btn').on('click',function(e){
-           e.preventDefault();
-           var btn = e.currentTarget;
-           btn.closest('.js-pay-rate-container').remove();
-            })
-
+      });
     })
     </script>
 {% endblock %}

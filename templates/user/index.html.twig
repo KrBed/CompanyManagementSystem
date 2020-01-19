@@ -1,20 +1,54 @@
-{% extends 'base.html.twig' %}
+{% extends 'user_base.html.twig.' %}
 
-{% block title %}Hello UserController!{% endblock %}
+{% block title %}Users List{% endblock %}
+{% block container %}container-fluid{% endblock %}
+{% block body %}
+    <div id="user-table-container" class="row">
+        <table class="table table-hover table-sm table-bordered text-center" style="table-layout: fixed">
+            <div class="bg-danger">
+                <thead>
+                <tr class="users-table-head">
+                    <th scope="col"  class="head-margin-column"></th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Department</th>
+                    <th scope="col">Telephone</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Position</th>
+                    <th class="head-margin-column"></th>
+                </tr>
+                </thead>
+            </div>
+            <tbody class="users-table-body">
+            {% for user in users %}
+                <tr>
+                    <td colspan="2" class="body-first-column" style="border-right:0px solid">{{ user.firstName }} {{ user.lastName }}</td>
+                    <td class="m-l-2">{{ user.department.name }}</td>
+                    <td>{{ user.telephone }}</td>
+                    <td class="m-r-2">{{ user.email }}</td>
+                    <td colspan="2" class="body-last-column" style="border-left:0px solid">{{ user.position }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-{#{% block body %}#}
-{#<style>#}
-{#    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }#}
-{#    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }#}
-{#</style>#}
 
-{#<div class="example-wrapper">#}
-{#    <h1>Hello {{ controller_name }}! ✅</h1>#}
+{% endblock %}
+{% block department %}
+    <div class="col-3 p-l-14">
+        <div id="departments">
+            <div class="table-header">
+                Department name
+            </div>
+            <div class="department-wrapper">
+            {% for department in departments %}
+                <div class="alert alert-light dep-item">
+                    {{ department }}
+                </div>
 
-{#    This friendly message is coming from:#}
-{#    <ul>#}
-{#        <li>Your controller at <code><a href="{{ 'D:/xampp/htdocs/CompanyManagementSystem/src/Controller/UserController.php'|file_link(0) }}">src/Controller/UserController.php</a></code></li>#}
-{#        <li>Your template at <code><a href="{{ 'D:/xampp/htdocs/CompanyManagementSystem/templates/user/index.html.twig'|file_link(0) }}">templates/user/index.html.twig</a></code></li>#}
-{#    </ul>#}
-{#</div>#}
-{#{% endblock %}#}
+            {% endfor %}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

@@ -2,63 +2,67 @@
 
 namespace App\Controller;
 
-use App\Entity\PayRate;
 use App\Entity\User;
 use App\Form\UserFormType;
-use DateTime;
-use Exception;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 class UserController extends AbstractController
 {
     /**
-     * @Route("/user", name="user")
+     * @Route("admin/users/list", name="admin_users_list")
      */
-    public function index()
+    public function index(Request $request, EntityManagerInterface $em )
     {
+
+        $users = $em->getRepository(User::class)->findBy([]);
+        $departments = ['IT','Production','Accounts'];
         return $this->render('user/index.html.twig', [
             'controller_name' => 'UserController',
+            'users' => $users,
+            'departments' =>$departments
         ]);
     }
 
     /**
-     * @Route("admin/user/new")
-     * @param User $user
+     * @Route("admin/users/new" , name="admin_users_new")
      * @param Request $request
+     * @param EntityManagerInterface $em
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @return Response
-     * @throws Exception
      */
-    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder){
+    public function new(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
+    {
 
-
-        $form= $this->createForm(UserFormType::class);
+        $form = $this->createForm(UserFormType::class);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
-//           /** @var User $user */
-//            dd($form->getData());
-//            dd($user);
+        /** @var User $user */
+        $user = $form->getData();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $user->setPassword($passwordEncoder->encodePassword($user, $user->getPlainPassword()));
+
+            $em->persist($user);
+            $em->flush();
+
+            if ($user->getId()) {
+                $this->addFlash('success', 'User' . $user->getFirstName() . $user->getLastName() . 'created');
+
+                return $this->redirectToRoute('admin_user_list');
+            } else {
+                $this->addFlash('error', 'Something went wrong user was not created');
+
+                return $this->render('user/new.html.twig', ['userForm' => $form->createView()]);
+            }
         }
-        /** @var User  $user */
-       $user2 = new User();
-       $payRate = new PayRate();
-       $payRate->setObtainFrom(new DateTime('now'));
-       $payRate->setRatePerHour(20);
-       $payRate->setOvertimeRate(40);
-        $payRate2 = new PayRate();
-        $payRate2->setObtainFrom(new DateTime('now'));
-        $payRate2->setRatePerHour(30);
-        $payRate2->setOvertimeRate(60);
-       $user2->addPayRate($payRate);
-        $user2->addPayRate($payRate2);
-//       dd($user);
-       $form = $this->createForm(UserFormType::class,$user2);
-        return $this->render('user/new.html.twig',['userForm'=>$form->createView()]);
+
+        return $this->render('user/new.html.twig', ['userForm' => $form->createView()]);
     }
 }

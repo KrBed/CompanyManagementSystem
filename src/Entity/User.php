@@ -26,7 +26,9 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotNull
      */
+
     private $email;
 
     /**
@@ -39,11 +41,9 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
-
     /**
-     * @Assert\NotBlank()
-     * @Assert\Length(max=4096)
-     *
+     * @var string password before hashing
+     * @ORM\Column(type="string")
      */
     private $plainPassword;
 
@@ -65,11 +65,14 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
      */
+
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
      */
     private $lastName;
 
@@ -98,21 +101,43 @@ class User implements UserInterface
      */
     private $telephone;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PayRate", mappedBy="user")
-     */
-    private $payRates;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Department", inversedBy="users")
      */
     private $department;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PayRate", mappedBy="user",cascade={"persist"})
+     */
+    private $payRates;
+
+    private $position;
+
+    /**
+     * @return mixed
+     */
+    public function getPosition()
+    {
+        if($this->position === null){
+            return 'No position';
+        }
+        return $this->position;
+    }
+
+    /**
+     * @param mixed $position
+     */
+    public function setPosition($position): void
+    {
+        $this->position = $position;
+    }
+
 
     public function __construct()
     {
         $this->payRates = new ArrayCollection();
-        $this->payRate = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -277,6 +302,24 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getDepartment(): ?Department
+    {
+        $department = $this->department;
+        if(null === $department){
+            $department = new Department();
+            $department->setName('No department');
+            return $department;
+        }
+        return $this->department;
+    }
+
+    public function setDepartment(?Department $department): self
+    {
+        $this->department = $department;
+
+        return $this;
+    }
+
     /**
      * @return Collection|PayRate[]
      */
@@ -300,22 +343,10 @@ class User implements UserInterface
         if ($this->payRates->contains($payRate)) {
             $this->payRates->removeElement($payRate);
             // set the owning side to null (unless already changed)
-            if ($payRate->getRelation() === $this) {
+            if ($payRate->getUser() === $this) {
                 $payRate->setUser(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getDepartment(): ?Department
-    {
-        return $this->department;
-    }
-
-    public function setDepartment(?Department $department): self
-    {
-        $this->department = $department;
 
         return $this;
     }

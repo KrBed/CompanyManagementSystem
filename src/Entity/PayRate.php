@@ -3,17 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
-use Gedmo\Timestampable\Traits\Timestampable;
-
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\PayRateRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\PayRatesRepository")
  */
 class PayRate
 {
-    use Timestampable;
-    use SoftDeleteable;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -37,11 +32,10 @@ class PayRate
     private $overtimeRate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="payRate")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="payRates")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
-
 
     public function getId(): ?int
     {
@@ -95,5 +89,4 @@ class PayRate
 
         return $this;
     }
-
 }

@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Valid;
 
 class UserFormType extends AbstractType
 {
@@ -21,7 +22,7 @@ class UserFormType extends AbstractType
     {
         $builder
             ->add('email',EmailType::class,['label'=>false,'attr'=>['placeholder'=>'Email']])
-            ->add('plainPassword',RepeatedType::class,['type'=>PasswordType::class,'first_options'=>['label'=>false,'attr'=>['placeholder'=>'Password']],
+            ->add('plainPassword',RepeatedType::class,['type'=>PasswordType::class,'invalid_message'=>'The password field value is not valid !!!','first_options'=>['label'=>false,'attr'=>['placeholder'=>'Password'] ],
                 'second_options'=>['label'=>false,'attr'=>['placeholder'=>'Repeat Password'] ]])
             ->add('firstName',TextType::class,['label'=>false,'attr'=>['placeholder'=>'First name']])
             ->add('lastName',TextType::class,['label'=>false,'attr'=>['placeholder'=>'Last name']])
@@ -32,7 +33,7 @@ class UserFormType extends AbstractType
             ->add('town',TextType::class,['label'=>false,'attr'=>['placeholder'=>'Town']])
             ->add('note',TextareaType::class,['attr'=>['row'=>'20' ,'style'=>'min-height:150px']])
             ->add('payRates',CollectionType::class,[  'entry_type' => PayRateFormType::class,
-                'entry_options' => ['label' => false],'by_reference'=>false,'allow_add'=> true, 'allow_delete'=>true])
+                'entry_options' => ['label' => false],'by_reference'=>false,'allow_add'=> true, 'allow_delete'=>true, 'prototype'=>true])
         ;
     }
 

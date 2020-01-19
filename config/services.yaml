@@ -22,6 +22,7 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
-
+    Symfony\Component\Security\Core\Role\RoleHierarchyInterface: '@security.role_hierarchy'
+    Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator : '@service_container'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
