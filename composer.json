@@ -23,7 +23,8 @@
         "symfony/var-dumper": "4.4.*",
         "symfony/web-server-bundle": "4.4.*",
         "symfony/yaml": "4.4.*",
-        "twbs/bootstrap": "4.4.1"
+        "twbs/bootstrap": "4.4.1",
+      "ext-json": "*"
     },
     "require-dev": {
     },

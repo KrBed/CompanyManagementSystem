@@ -5,12 +5,18 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
+use Gedmo\Timestampable\Traits\Timestampable;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DepartmentRepository")
+ * @UniqueEntity("name")
  */
 class Department
 {
+    use Timestampable;
+    use SoftDeleteable;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

@@ -8,6 +8,29 @@
     border-bottom-right-radius: 2em;
 
 }
+#positionModal .modal-body{
+    box-sizing: border-box;
+    max-height:100px;!important;
+    min-height: 100px;!important;
+}
+
+.tooltip-inner {
+    background-color: #27C0E8;
+    color: black;
+    bodrer:1px solid black;
+}
+.tooltip.bs-tooltip-right .arrow:before {
+    border-right-color:  #27C0E8 !important;
+}
+.tooltip.bs-tooltip-left .arrow:before {
+    border-right-color:  #27C0E8 !important;
+}
+.tooltip.bs-tooltip-bottom .arrow:before {
+    border-right-color: #27C0E8 !important;
+}
+.tooltip.bs-tooltip-top .arrow:before {
+    border-right-color:  #27C0E8 !important;
+}
 
 #bts-override .width10em {
     width: 10em;
@@ -30,6 +53,10 @@
 #bts-override .p-l-14 {
     padding-left: 14px;
 }
+/* MODALS OVERRIDE */
+.modal-content{
+    border-radius: 16px;
+}
 
 /* CUSTOM CSS CLASSES */
 #sidebar {
@@ -43,12 +70,14 @@
     max-height: 100vh;
     background-color: #4b4d52;
 }
-#sidebar a{
-    color:#e8e8e8;
+
+#sidebar a {
+    color: #e8e8e8;
     text-decoration: none;
 }
-#sidebar li:hover{
-    background-color:#3d3f43;
+
+#sidebar li:hover {
+    background-color: #3d3f43;
 }
 
 
@@ -143,10 +172,10 @@
 }
 
 .icon-wrapper {
-   padding: 0.75rem;
+    padding: 0.75rem;
 }
 
-.icon-wrapper p{
+.icon-wrapper p {
     margin-top: -0.6rem;
     margin-bottom: 0.3rem;
     text-transform: uppercase;

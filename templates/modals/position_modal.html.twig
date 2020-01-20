@@ -1,0 +1,22 @@
+<div class="modal fade" id="positionModal" tabindex="-1" role="dialog" aria-labelledby="positionModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="positionModalDialogTitle">New position</h5>
+            </div>
+            <div class="modal-body p-4">
+                <form id="position-form" name="position_form" method="post" action="{{ path('position_new') }}">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="name" placeholder="Position">
+                        <span class="pt-1 text-danger js-position-error"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button id="position-btn" type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+{% extends "base.html.twig" %}
+{% block succesMessages %}
+    <div id="message" class="alert alert-success pt-2" hidden="true">
+
+    </div>
+{% endblock %}
+{% block navbar_links %}
+    <div class="collapse navbar-collapse" id="">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Management</a>
+            </li>
+            <li id="position" class="nav-item " data-toggle="modal" data-target="#positionModal">
+                <a class="nav-link" data-toggle="tooltip" title="Add position" data-placement="right" href="#"><i
+                            class="material-icons" style="font-size:24px;color:#b8babe">accessibility</i></a>
+            </li>
+            <li id="department" class="nav-item " data-toggle="modal" data-target="#departmentModal">
+                <a class="nav-link" data-toggle="tooltip" title="Add department" data-placement="right" href="#"><i
+                            class="material-icons" style="font-size:24px;color:#b8babe">work</i></a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+    </nav>
+
+{% endblock navbar_links %}
+
+{% block modals %}
+    {{ include('modals/position_modal.html.twig') }}
+    {{ include('modals/department_modal.html.twig') }}
+
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+
+<script src="{{ asset('js/positionModal.js') }}"></script>
+<script src="{{ asset('js/departmentModal.js') }}"></script>
+
+{% endblock %}

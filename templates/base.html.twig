@@ -15,7 +15,7 @@
 
 <body>
 
-<nav class="navbar navbar-expand-md navbar-light bg-light">
+<nav class="navbar navbar-expand-md navbar-light bg-light" id="top-nav">
     <a class="navbar-brand" href="#">ACME Company</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,7 +69,7 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="{{ path('management') }}">
                     <div class="icon-wrapper">
                         <i class="material-icons" style="font-size:28px;color:#b8babe">public</i>
                         <p class="">Zarządzanie</p>
@@ -87,9 +87,11 @@
 </div>
 <main role="main" id="bts-override" style="margin-left: 115px">
     <div class="row">
+
         <div class="{% block body_columns %}col-9{% endblock body_columns %}{% block padding %} p-r-0  {% endblock %}">
+            {% block succesMessages %}{% endblock succesMessages %}
             {% for message in app.flashes('success') %}
-                <div class="alert alert-success">
+                <div id ="message" class="alert alert-success">
                     {{ message }}
                 </div>
             {% endfor %}
@@ -115,7 +117,7 @@
 
 </main><!-- /.container -->
 
-
+{% block modals %} {% endblock modals %}
 {% block javascript %}
 <script src = "">< /script>
 
@@ -124,8 +126,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="{{ asset('bootstrap.bundle.js') }}"></script>
 <script src="{{ asset('bootstrap.js') }}"></script>
+
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+
 {% endblock %}
-
 </body>
-
 </html>
