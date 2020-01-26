@@ -73,6 +73,7 @@
         <div class="card-body">
             <div class="tab-content mt-3">
                 <div id="user-personal" class="tab-pane container active">
+                    <div class="pb-2"><h6 class="font-weight-bold">Dane osobowe</h6></div>
                     <div class="row">
                         <div class="col">
                             {{ form_row(userForm.firstName) }}
@@ -85,7 +86,11 @@
                         <div class="col">
                             {{ form_row(userForm.department) }}
                         </div>
+                        <div class="col">
+                            {{ form_row(userForm.position) }}
+                        </div>
                     </div>
+                    <div class="pb-2"><h6 class="font-weight-bold">Dane adresowe</h6></div>
                     <div class="row">
                         <div class="col">
                             {{ form_row(userForm.email) }}
@@ -107,6 +112,7 @@
                             {{ form_row(userForm.town) }}
                         </div>
                     </div>
+                    <div class="pb-2"><h6 class="font-weight-bold">Notatka</h6></div>
                     <div class="row">
                         <div class="col">
                             {{ form_row(userForm.note) }}

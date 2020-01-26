@@ -58,6 +58,18 @@
     border-radius: 16px;
 }
 
+.rcp-button{
+    margin-left: 1.5em;
+    border: 1px solid  #e8e8e8;
+    background-color: #FFFFFF;
+    border-radius: 6px;
+    width: 450px;
+    text-align: left;
+}
+.rcp-button:hover{
+    background-color: #FFFFFF;
+    box-shadow: 2px 2px 12px 2px #e8e8e8;
+}
 /* CUSTOM CSS CLASSES */
 #sidebar {
     position: absolute;
@@ -169,6 +181,10 @@
 
 #departments .dep-item {
     border: 1px solid #dee2e6;
+}
+#departments .dep-item:hover{
+    background-color: #FFFFFF;
+    box-shadow: 2px 2px 12px 2px #e8e8e8;
 }
 
 .icon-wrapper {

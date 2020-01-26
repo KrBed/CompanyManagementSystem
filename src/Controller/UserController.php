@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Department;
 use App\Entity\User;
 use App\Form\UserFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,9 +22,9 @@ class UserController extends AbstractController
     {
 
         $users = $em->getRepository(User::class)->findBy([]);
-        $departments = ['IT','Production','Accounts'];
+        $departments = $em->getRepository(Department::class)->findAll();
+
         return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
             'users' => $users,
             'departments' =>$departments
         ]);
@@ -38,12 +39,14 @@ class UserController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
     {
+//        dd($request->request);
 
         $form = $this->createForm(UserFormType::class);
         $form->handleRequest($request);
 
         /** @var User $user */
         $user = $form->getData();
+
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -53,9 +56,9 @@ class UserController extends AbstractController
             $em->flush();
 
             if ($user->getId()) {
-                $this->addFlash('success', 'User' . $user->getFirstName() . $user->getLastName() . 'created');
+                $this->addFlash('success', 'User ' . $user->getFirstName() . $user->getLastName() . ' created');
 
-                return $this->redirectToRoute('admin_user_list');
+                return $this->redirectToRoute('admin_users_list');
             } else {
                 $this->addFlash('error', 'Something went wrong user was not created');
 

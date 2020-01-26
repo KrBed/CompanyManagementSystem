@@ -21,11 +21,13 @@
             <tbody class="users-table-body">
             {% for user in users %}
                 <tr>
-                    <td colspan="2" class="body-first-column" style="border-right:0px solid">{{ user.firstName }} {{ user.lastName }}</td>
+                    <td colspan="2" class="body-first-column" style="border-right:0px solid">{{ user.fullName }}</td>
                     <td class="m-l-2">{{ user.department.name }}</td>
                     <td>{{ user.telephone }}</td>
                     <td class="m-r-2">{{ user.email }}</td>
-                    <td colspan="2" class="body-last-column" style="border-left:0px solid">{{ user.position }}</td>
+                    <td colspan="2" class="body-last-column" style="border-left:0px solid">
+                        {{ user.position }}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>

@@ -27,9 +27,13 @@ $(document).ready(function () {
             }
             $('#positionModal').modal('hide');
             $messageDiv = $('#message');
+            $messageDiv.removeAttr('style');
             $messageDiv.attr('hidden', false)
             $messageDiv.text(data['name']);
             $messageDiv.fadeOut(5000);
+            setTimeout(function () {
+                $messageDiv.attr('hidden', 'hidden')
+            },5000)
         })
     })
 })

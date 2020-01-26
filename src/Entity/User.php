@@ -5,10 +5,10 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Gedmo\Timestampable\Traits\Timestampable;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -46,6 +46,57 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $plainPassword;
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
+     */
+
+    private $firstName;
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
+     */
+    private $lastName;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $note;
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $street;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $postalCode;
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $town;
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $telephone;
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Department", inversedBy="users")
+     */
+    private $department;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PayRate", mappedBy="user",cascade={"persist"})
+     */
+    private $payRates;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Position", inversedBy="users")
+     */
+    private $position;
+
+
+    public function __construct()
+    {
+        $this->payRates = new ArrayCollection();
+
+    }
 
     /**
      * @return mixed
@@ -55,89 +106,13 @@ class User implements UserInterface
         return $this->plainPassword;
     }
 
+
     /**
      * @param mixed $plainPassword
      */
     public function setPlainPassword($plainPassword): void
     {
         $this->plainPassword = $plainPassword;
-    }
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull
-     */
-
-    private $firstName;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull
-     */
-    private $lastName;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $note;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $street;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $postalCode;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $town;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $telephone;
-
-
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Department", inversedBy="users")
-     */
-    private $department;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PayRate", mappedBy="user",cascade={"persist"})
-     */
-    private $payRates;
-
-    private $position;
-
-    /**
-     * @return mixed
-     */
-    public function getPosition()
-    {
-        if($this->position === null){
-            return 'No position';
-        }
-        return $this->position;
-    }
-
-    /**
-     * @param mixed $position
-     */
-    public function setPosition($position): void
-    {
-        $this->position = $position;
-    }
-
-
-    public function __construct()
-    {
-        $this->payRates = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -218,30 +193,6 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
-    public function getFirstName(): ?string
-    {
-        return $this->firstName;
-    }
-
-    public function setFirstName(string $firstName): self
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(string $lastName): self
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
     public function getNote(): ?string
     {
         return $this->note;
@@ -305,7 +256,7 @@ class User implements UserInterface
     public function getDepartment(): ?Department
     {
         $department = $this->department;
-        if(null === $department){
+        if (null === $department) {
             $department = new Department();
             $department->setName('No department');
             return $department;
@@ -351,4 +302,44 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getPosition(): ?Position
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?Position $position): self
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    public function getFullName():string
+    {
+        return $this->getFirstName().' '. $this->getLastName();
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
 }
