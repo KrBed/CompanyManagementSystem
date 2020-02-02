@@ -18,7 +18,6 @@ $(document).ready(function () {
             url: $link,
             data: {name: department_name}
         }).done(function (data) {
-            console.log(data)
             if ('error' in data) {
                 $('.js-department-error').text(data['error']);
                 return;

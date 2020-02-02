@@ -91,10 +91,16 @@ class User implements UserInterface
      */
     private $position;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\WorkStatus", mappedBy="user", orphanRemoval=true)
+     */
+    private $statuses;
+
 
     public function __construct()
     {
         $this->payRates = new ArrayCollection();
+        $this->statuses = new ArrayCollection();
 
     }
 
@@ -339,6 +345,37 @@ class User implements UserInterface
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|WorkStatus[]
+     */
+    public function getStatuses(): Collection
+    {
+        return $this->statuses;
+    }
+
+    public function addStatus(WorkStatus $status): self
+    {
+        if (!$this->statuses->contains($status)) {
+            $this->statuses[] = $status;
+            $status->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStatus(WorkStatus $status): self
+    {
+        if ($this->statuses->contains($status)) {
+            $this->statuses->removeElement($status);
+            // set the owning side to null (unless already changed)
+            if ($status->getUser() === $this) {
+                $status->setUser(null);
+            }
+        }
 
         return $this;
     }

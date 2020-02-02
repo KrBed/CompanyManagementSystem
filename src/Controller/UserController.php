@@ -39,14 +39,11 @@ class UserController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
     {
-//        dd($request->request);
-
         $form = $this->createForm(UserFormType::class);
         $form->handleRequest($request);
 
         /** @var User $user */
         $user = $form->getData();
-
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -65,7 +62,6 @@ class UserController extends AbstractController
                 return $this->render('user/new.html.twig', ['userForm' => $form->createView()]);
             }
         }
-
         return $this->render('user/new.html.twig', ['userForm' => $form->createView()]);
     }
 }
