@@ -1,49 +1,57 @@
 {% extends 'overview/overview_base.html.twig' %}
 
 {% block body %}
-    <h3 class="p-3">Rejestracja czasu pracy</h3>
-    <div class="row">
-        <button id="rcp-btn" type="button" class="p-3 rcp-button">Dodaj status</button>
-    </div>
-    <h3 class="p-3">Twój grafik pracy</h3>
-    <div class="row">
+<h3 class="p-3">Rejestracja czasu pracy</h3>
+<div class="row">
+    <button id="rcp-btn" type="button" class="p-3 rcp-button">Dodaj status</button>
+</div>
+<h3 class="p-3">Twój grafik pracy</h3>
+<div class="row">
 
-    </div>
-    <h3 class="p-3">Twoje statystyki</h3>
-    <div class="row">
+</div>
+<h3 class="p-3">Twoje statystyki</h3>
+<div class="row">
 
-    </div>
-    <h3 class="p-3">Ostatnie zdarzenia</h3>
-    <div>
-        <div class="">
-            <div class="events-date p-3">
+</div>
+<h3 class="p-3">Ostatnie zdarzenia</h3>
+
+<div>
+    {% for key, status in workStatuses %}
+        <div class="events-container row">
+            <div class="events-date p-3 col">
                 <div class="date-container">
-                    <span class="month-day">
-                        21
-                    </span>
+                         <span class="month-day">
+                        {{ key |date('j') }}
+                         </span>
                     <span class="week-day">
-                        Monday
-                    </span>
+                        {{ key|date('l') }}
+                        </span>
                 </div>
-
-                <div class="events-list">
-                    <div class="list-container">
-                        <div class="list-element">
-                            <span class="event-time">7:09 - Wejście</span>
-                            <span class="user-name">Krzysztof Bednarski</span>
-                            <span class="department-name">Produkcja</span>
-                            <span class="send-by">Przesłane przez RCP</span>
-                        </div>
+                <div class="events-list col">
+                    <div class="list-container" id="{{ key }}">
+                        {% for status in workStatuses[key] %}
+                            {% if status.name =="Wejście" %}
+                            {% set color = "text-success" %}
+                        {% else %}
+                            {% set color = "text-danger" %}
+                            {% endif %}
+                            <div class="list-element" >
+                                <span class="event-time {{ color }}">{{ status.time }} - {{ status.name }}</span>
+                                <span class="user-name">{{ status.userName }}</span>
+                                <span class="department-name">{{ status.department }}</span>
+                                <span class="send-by">Wysłane przez {{ status.sendBy }}</span>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-{% endblock %}
-{% block modals %}
-    {{ include('modals/addStatus_modal.html.twig') }}
-{% endblock %}
- {% block javascript %}
- {{  parent() }}
- <script src="{{ asset('js/addStatusModal.js') }}"></script>
- {% endblock %}
+    {% endfor %}
+    {% endblock %}
+    {% block modals %}
+        {{ include('modals/addStatus_modal.html.twig') }}
+    {% endblock %}
+    {% block javascript %}
+    {{  parent() }}
+    <script src="{{ asset('js/addStatusModal.js') }}"></script>
+    {% endblock %}

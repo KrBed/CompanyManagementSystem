@@ -66,7 +66,6 @@ function disableEnableStatusBtn() {
 
 function appendNewStatusToList(data) {
 
-
    var status = JSON.parse(data);
    let statusNameColor = ''
    if (status.name == 'Wejście'){
@@ -76,6 +75,6 @@ function appendNewStatusToList(data) {
    }
 
     let $element = '<div class="list-element">'+ statusNameColor +''+ status.time +' - '+ status.name + '</span> <span class="user-name">' + status.userName + '</span><span class="department-name">' + status.department + '</span> <span class="send-by">Przesłane przez ' + status.sendBy + '</span> </div>';
-    let $listContainer = $('.list-container');
-    $listContainer.append($element);
-};
+    let $listContainer = $('#'+status.date);
+    $listContainer.prepend($element);
+}

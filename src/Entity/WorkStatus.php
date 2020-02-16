@@ -3,16 +3,23 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
-use Gedmo\Timestampable\Traits\Timestampable;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\WorkStatusRepository")
  */
 class WorkStatus
 {
-    use Timestampable;
-    use SoftDeleteable;
+
+    public function __construct(User $user,string $status,\DateTime $date,string $sendBy)
+    {
+        $this->user = $user;
+        $this->status = $status;
+        $this->date = $date;
+        $this->sendBy = $sendBy;
+    }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -35,6 +42,11 @@ class WorkStatus
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $sendBy;
 
     public function getId(): ?int
     {
@@ -73,6 +85,18 @@ class WorkStatus
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getSendBy(): ?string
+    {
+        return $this->sendBy;
+    }
+
+    public function setSendBy(string $sendBy): self
+    {
+        $this->sendBy = $sendBy;
 
         return $this;
     }

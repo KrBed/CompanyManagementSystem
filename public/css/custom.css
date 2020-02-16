@@ -8,6 +8,9 @@
     border-bottom-right-radius: 2em;
 
 }
+.body-margin{
+    margin-top: 75px;
+}
 
 #positionModal .modal-body {
     box-sizing: border-box;
@@ -82,14 +85,14 @@
 
 /* CUSTOM CSS CLASSES */
 #sidebar {
-    position: absolute;
-    display: block;
+    position: fixed;
+    margin-top: 57px;
     padding-left: 0;
     padding-right: 0;
     min-width: 100px;
     max-width: 100px;
-    min-height: 100vh;
-    max-height: 100vh;
+    min-height: 100%;
+    max-height: 100%;
     background-color: #4b4d52;
 }
 
@@ -196,6 +199,11 @@
 #departments .dep-item:hover {
     background-color: #FFFFFF;
     box-shadow: 2px 2px 12px 2px #e8e8e8;
+}
+.list-element:hover{
+    background-color: #FFFFFF;
+    border:1px solid #dee2e6;
+    box-shadow: 4px 4px 12px 4px #e8e8e8;
 }
 
 .icon-wrapper {
@@ -316,7 +324,7 @@
 }
 .week-day{
     width:inherit;
-    top:-16px;
+    top:-10px;
     text-transform: uppercase;
     font-weight: bold;
     color: #686868;

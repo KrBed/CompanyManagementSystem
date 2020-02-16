@@ -3,16 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
-use Gedmo\Timestampable\Traits\Timestampable;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PayRatesRepository")
  */
 class PayRate
 {
-    use Timestampable;
-    use SoftDeleteable;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

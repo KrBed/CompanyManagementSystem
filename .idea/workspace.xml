@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c494bd5e-3b41-42ab-8b84-5e2bc29b33c9" name="Default Changelist" comment="Security and login">
-      <change afterPath="$PROJECT_DIR$/public/images/favicons/favicon-16x16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/addStatusModal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ViewModels/WorkStatusDto.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/modals/addStatus_modal.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/overview/overview_base.html.twig" afterDir="false" />
+    <list default="true" id="c494bd5e-3b41-42ab-8b84-5e2bc29b33c9" name="Default Changelist" comment="Sending and displaying work statuses">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/custom.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/departmentModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/departmentModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ManagementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ManagementController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/addStatusModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/addStatusModal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/OverviewController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/OverviewController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Department.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Department.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/PayRate.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/PayRate.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Position.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Position.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/WorkStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/WorkStatus.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20200126112913.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20200126142819.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20200202085416.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Security/LoginFormAuthenticator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/LoginFormAuthenticator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ViewModels/WorkStatusDto.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ViewModels/WorkStatusDto.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/overview/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/overview/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/position/index.html.twig" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +57,7 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="PhpDebugGeneral" listening_started="true" />
   <component name="PhpServers">
     <servers>
       <server host="127.0.0.1" id="47e21ff0-5045-413f-b906-b7e2a6fa11cc" name="127.0.0.1" port="8000" />
@@ -162,7 +164,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
     <property name="settings.editor.selected.configurable" value="Template Data Languages" />
   </component>
@@ -245,6 +247,16 @@
       <workItem from="1580541923226" duration="1884000" />
       <workItem from="1580594724931" duration="58000" />
       <workItem from="1580623581309" duration="29443000" />
+      <workItem from="1580936537527" duration="33000" />
+      <workItem from="1580936589041" duration="4000" />
+      <workItem from="1581014977484" duration="5000" />
+      <workItem from="1581015006251" duration="6000" />
+      <workItem from="1581022855711" duration="528000" />
+      <workItem from="1581831755637" duration="245000" />
+      <workItem from="1581833786302" duration="485000" />
+      <workItem from="1581835273243" duration="1177000" />
+      <workItem from="1581849392180" duration="48000" />
+      <workItem from="1581849447163" duration="23075000" />
     </task>
     <task id="LOCAL-00001" summary="Crating new User">
       <created>1578312941440</created>
@@ -312,10 +324,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1578124498871" />
-    <state x="744" y="235" key="#com.intellij.ide.util.MemberChooser" timestamp="1579629314466">
+    <state x="744" y="235" key="#com.intellij.ide.util.MemberChooser" timestamp="1581855935997">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="744" y="235" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1579629314466" />
+    <state x="744" y="235" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581855935997" />
     <state x="669" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1578313742394">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -324,22 +336,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="274" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580632076460" />
-    <state x="0" y="29" width="1920" height="982" key="CommitChangelistDialog2" timestamp="1580064950764">
+    <state x="0" y="29" width="1920" height="982" key="CommitChangelistDialog2" timestamp="1581860854043">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="0" y="29" width="1920" height="982" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580064950764" />
+    <state x="0" y="29" width="1920" height="982" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581860854043" />
     <state width="678" height="644" key="DebuggerActiveHint" timestamp="1580646643799">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="678" height="644" key="DebuggerActiveHint/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580646643799" />
-    <state x="184" y="85" key="DiffContextDialog" timestamp="1579436639014">
+    <state x="184" y="85" width="1536" height="861" key="DiffContextDialog" timestamp="1580675185549">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="184" y="85" key="DiffContextDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1579436639014" />
-    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1578726736875">
+    <state x="184" y="85" width="1536" height="861" key="DiffContextDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580675185549" />
+    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1581849437845">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1578726736875" />
+    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581849437845" />
+    <state x="785" y="414" key="Github.ShareDialog" timestamp="1580675171265">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="785" y="414" key="Github.ShareDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580675171265" />
     <state width="1877" height="213" key="GridCell.Tab.0.bottom" timestamp="1580667829379">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -416,18 +432,18 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="162" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1579337634585" />
-    <state width="498" height="446" key="SwitcherDM" timestamp="1580654289082">
+    <state width="498" height="446" key="SwitcherDM" timestamp="1581879049836">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="498" height="446" key="SwitcherDM/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580654289082" />
-    <state x="552" y="248" key="Vcs.Push.Dialog.v2" timestamp="1580063136046">
+    <state width="498" height="446" key="SwitcherDM/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581879049836" />
+    <state x="552" y="248" key="Vcs.Push.Dialog.v2" timestamp="1580674995004">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="248" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580063136046" />
-    <state x="636" y="343" key="com.intellij.ide.util.TipDialog" timestamp="1580623599132">
+    <state x="552" y="248" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580674995004" />
+    <state x="636" y="343" key="com.intellij.ide.util.TipDialog" timestamp="1581849392824">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="636" y="343" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580623599132" />
+    <state x="636" y="343" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581849392824" />
     <state x="92" y="92" width="1736" height="856" key="dock-window-1" timestamp="1578519103079">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -436,10 +452,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1579629697589" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1580632402927">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1581849594122">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580632402927" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581849594122" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -451,7 +467,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/src/Controller/OverviewController.php</url>
-          <line>44</line>
+          <line>65</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
       </breakpoints>

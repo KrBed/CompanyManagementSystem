@@ -39,16 +39,18 @@ class UserController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
     {
+
         $form = $this->createForm(UserFormType::class);
         $form->handleRequest($request);
 
         /** @var User $user */
         $user = $form->getData();
-
+//        dd($user);
         if ($form->isSubmitted() && $form->isValid()) {
 
             $user->setPassword($passwordEncoder->encodePassword($user, $user->getPlainPassword()));
-
+            $user->setCreatedAt(new \DateTime('now'));
+            $user->setUpdatedAt(new \DateTime('now'));
             $em->persist($user);
             $em->flush();
 

@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\WorkStatus;
+use App\Repository\WorkStatusRepository;
 use App\ViewModels\WorkStatusDto;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,13 +19,33 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class OverviewController extends AbstractController
 {
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+    /**
+     * @var WorkStatusRepository
+     */
+    private $workStatusRepository;
+
+    public function __construct(EntityManagerInterface $em,WorkStatusRepository $workStatusRepository)
+    {
+        $this->em = $em;
+        $this->workStatusRepository = $workStatusRepository;
+    }
+
     /**
      * @Route("/", name="overview")
      */
     public function index()
     {
+        $workStatuses = $this->workStatusRepository->findBy([],['date'=>'DESC']);
+
+        $workStatusesDto = WorkStatusDto::createManyWorkStatuses($workStatuses);
+
         return $this->render('overview/index.html.twig', [
-            'controller_name' => 'OverviewController',
+            'workStatuses' => $workStatusesDto
         ]);
     }
 
@@ -36,11 +58,10 @@ class OverviewController extends AbstractController
     public function addStatus(Request $request)
     {
         if ($request->isXmlHttpRequest()) {
+            $workStatus = new WorkStatus($this->getUser(),$request->request->get('status'),new \DateTime(),'RCP');
 
-            $workStatus = new WorkStatus();
-            $workStatus->setUser($user = $this->getUser());
-            $workStatus->setStatus($request->request->get('status'));
-            $workStatus->setDate(new \DateTime());
+            $this->em->persist($workStatus);
+            $this->em->flush();
             $workStatusDto = WorkStatusDto::createWorkStatusDto($workStatus,'RCP');
             $data = json_encode($workStatusDto);
 

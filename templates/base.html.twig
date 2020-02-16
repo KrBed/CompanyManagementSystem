@@ -15,7 +15,7 @@
 
 <body>
 
-<nav class="navbar navbar-expand-md navbar-light bg-light" id="top-nav">
+<nav class="navbar fixed-top navbar-expand-md navbar-light bg-light" id="top-nav">
     <a class="navbar-brand" href="#">ACME Company</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,7 +77,12 @@
                 </a>
             </li>
             <li>
-
+                <a href="{{ path('management') }}">
+                    <div class="icon-wrapper">
+                        <i class="material-icons" style="font-size:28px;color:#b8babe">assignment_ind</i>
+                        <p class="">Grafik Pracy</p>
+                    </div>
+                </a>
             </li>
             <li>
 
@@ -100,6 +105,7 @@
                     {{ message }}
                 </div>
             {% endfor %}
+            <div class="body-margin">
             {% block body %}
                 <div class="starter-template">
                     <h1>Bootstrap starter template</h1>
@@ -107,6 +113,7 @@
                         text and a mostly barebones HTML document.</p>
                 </div>
             {% endblock %}
+            </div>
         </div>
         {% block department %}
             <div class="col-3 ">
