@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c494bd5e-3b41-42ab-8b84-5e2bc29b33c9" name="Default Changelist" comment="Sending and displaying work statuses">
+    <list default="true" id="c494bd5e-3b41-42ab-8b84-5e2bc29b33c9" name="Default Changelist" comment="displaying list of work statuses">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/custom.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/addStatusModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/addStatusModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/OverviewController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/OverviewController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Department.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Department.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/PayRate.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/PayRate.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Position.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Position.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/WorkStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/WorkStatus.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20200126112913.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20200126142819.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20200202085416.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/LoginFormAuthenticator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/LoginFormAuthenticator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ViewModels/WorkStatusDto.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ViewModels/WorkStatusDto.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20200126112913.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Migrations/Version20200216110106.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/overview/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/overview/index.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -256,7 +243,8 @@
       <workItem from="1581833786302" duration="485000" />
       <workItem from="1581835273243" duration="1177000" />
       <workItem from="1581849392180" duration="48000" />
-      <workItem from="1581849447163" duration="23075000" />
+      <workItem from="1581849447163" duration="23821000" />
+      <workItem from="1582053071494" duration="7282000" />
     </task>
     <task id="LOCAL-00001" summary="Crating new User">
       <created>1578312941440</created>
@@ -293,7 +281,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580063132768</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="displaying list of work statuses">
+      <created>1581883043172</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1581883043172</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -317,7 +312,8 @@
     <MESSAGE value="List of users ,new User and much more :) Commit after two weeks :)" />
     <MESSAGE value="Position and department logic added" />
     <MESSAGE value="Security and login" />
-    <option name="LAST_COMMIT_MESSAGE" value="Security and login" />
+    <MESSAGE value="displaying list of work statuses" />
+    <option name="LAST_COMMIT_MESSAGE" value="displaying list of work statuses" />
   </component>
   <component name="WindowStateProjectService">
     <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1578124498871">
@@ -336,10 +332,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="274" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580632076460" />
-    <state x="0" y="29" width="1920" height="982" key="CommitChangelistDialog2" timestamp="1581860854043">
+    <state x="0" y="29" width="1920" height="982" key="CommitChangelistDialog2" timestamp="1581883039059">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="0" y="29" width="1920" height="982" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581860854043" />
+    <state x="0" y="29" width="1920" height="982" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581883039059" />
     <state width="678" height="644" key="DebuggerActiveHint" timestamp="1580646643799">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -436,14 +432,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="498" height="446" key="SwitcherDM/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581879049836" />
-    <state x="552" y="248" key="Vcs.Push.Dialog.v2" timestamp="1580674995004">
+    <state x="552" y="248" key="Vcs.Push.Dialog.v2" timestamp="1581883054443">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="248" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1580674995004" />
-    <state x="636" y="343" key="com.intellij.ide.util.TipDialog" timestamp="1581849392824">
+    <state x="552" y="248" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581883054443" />
+    <state x="636" y="343" key="com.intellij.ide.util.TipDialog" timestamp="1582053118615">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="636" y="343" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1581849392824" />
+    <state x="636" y="343" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1582053118615" />
     <state x="92" y="92" width="1736" height="856" key="dock-window-1" timestamp="1578519103079">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

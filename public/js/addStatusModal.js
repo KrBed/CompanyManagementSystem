@@ -43,7 +43,7 @@ $(document).ready(function () {
 
         $.ajax({
             method: 'POST',
-            dataType:"json",
+            dataType: "json",
             url: $link,
             data: {status: $status}
         }).done(function (data) {
@@ -51,9 +51,7 @@ $(document).ready(function () {
             $('#addStatusModal').modal('hide');
         })
     })
-
 });
-
 
 function disableEnableStatusBtn() {
 
@@ -66,15 +64,34 @@ function disableEnableStatusBtn() {
 
 function appendNewStatusToList(data) {
 
-   var status = JSON.parse(data);
-   let statusNameColor = ''
-   if (status.name == 'Wejście'){
-       statusNameColor = '<span class="event-time text-success">';
-   }else{
-       statusNameColor = '<span class="event-time text-danger">';
-   }
+    var status = JSON.parse(data);
+    let statusNameColor = '';
+    let lastEventDate = $('#events').find(".list-container").first().attr("id");
 
-    let $element = '<div class="list-element">'+ statusNameColor +''+ status.time +' - '+ status.name + '</span> <span class="user-name">' + status.userName + '</span><span class="department-name">' + status.department + '</span> <span class="send-by">Przesłane przez ' + status.sendBy + '</span> </div>';
-    let $listContainer = $('#'+status.date);
-    $listContainer.prepend($element);
+    if (status.name == 'Wejście') {
+        statusNameColor = '<span class="event-time text-success">';
+    } else {
+        statusNameColor = '<span class="event-time text-danger">';
+    }
+
+    if (lastEventDate !== status.date) {
+        addEventsContainer(status, statusNameColor);
+    } else {
+        let $listContainer = $('#' + status.date);
+        let $element = '<div class="list-element">' + statusNameColor + '' + status.time + ' - ' + status.name + '</span> <span class="user-name">' + status.userName +
+            '</span><span class="department-name">' + status.department + '</span> <span class="send-by">Przesłane przez ' + status.sendBy + '</span> </div>';
+
+        $listContainer.prepend($element);
+    }
+}
+
+function addEventsContainer($status, statusNameColor) {
+    let day = $status.date.substring(0, 2);
+    if (day[0] == 0) day = day.substring(1, 2);
+    let container = '<div class="events-container row"><div class="events-date p-3 col">' +
+        '<div class="date-container"> <span class="month-day">' + day + ' </span> <span class="week-day">' + $status.day + ' </span> </div>' +
+        '<div class="events-list col"> <div class="list-container" id="18-02-2020"> <div class="list-element"> ' + statusNameColor + '' + $status.time + ' - ' + $status.name + '</span> <span class="user-name">' + $status.userName + '</span>' +
+        '<span class="department-name">' + $status.department + '</span> <span class="send-by">Wysłane przez ' + $status.sendBy + '</span> </div>' +
+        '</div> </div> </div> </div>';
+    $('#events').prepend(container);
 }
