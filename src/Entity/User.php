@@ -96,11 +96,17 @@ class User implements UserInterface
      */
     private $statuses;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DutyRooster", mappedBy="user")
+     */
+    private $dutyRoosters;
+
 
     public function __construct()
     {
         $this->payRates = new ArrayCollection();
         $this->statuses = new ArrayCollection();
+        $this->dutyRoosters = new ArrayCollection();
 
     }
 
@@ -374,6 +380,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($status->getUser() === $this) {
                 $status->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DutyRooster[]
+     */
+    public function getDutyRoosters(): Collection
+    {
+        return $this->dutyRoosters;
+    }
+
+    public function addDutyRooster(DutyRooster $dutyRooster): self
+    {
+        if (!$this->dutyRoosters->contains($dutyRooster)) {
+            $this->dutyRoosters[] = $dutyRooster;
+            $dutyRooster->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDutyRooster(DutyRooster $dutyRooster): self
+    {
+        if ($this->dutyRoosters->contains($dutyRooster)) {
+            $this->dutyRoosters->removeElement($dutyRooster);
+            // set the owning side to null (unless already changed)
+            if ($dutyRooster->getUser() === $this) {
+                $dutyRooster->setUser(null);
             }
         }
 

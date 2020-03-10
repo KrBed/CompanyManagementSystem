@@ -1,0 +1,33 @@
+{% extends 'duty_rooster/dutyRooster_base.html.twig' %}
+
+{% block title %}Hello DutyRoosterController!{% endblock %}
+
+{% block body %}
+    {{ dump(monthDays) }}
+    <div id="user-table-container" class="row">
+        <table class="table table-hover table-sm table-bordered text-center" style="table-layout: fixed">
+            <div class="bg-danger">
+                <thead>
+                <tr class="users-table-head">
+                    <th scope="col"  class="head-margin-column"></th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Department</th>
+                </tr>
+                </thead>
+            </div>
+            <tbody class="users-table-body">
+{#            {% for user in users %}#}
+{#                <tr>#}
+{#                    <td colspan="2" class="body-first-column" style="border-right:0px solid">{{ user.fullName }}</td>#}
+{#                    <td class="m-l-2">{{ user.department.name }}</td>#}
+{#                    <td>{{ user.telephone }}</td>#}
+{#                    <td class="m-r-2">{{ user.email }}</td>#}
+{#                    <td colspan="2" class="body-last-column" style="border-left:0px solid">#}
+{#                        {{ user.position }}#}
+{#                    </td>#}
+{#                </tr>#}
+{#            {% endfor %}#}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
