@@ -1,0 +1,53 @@
+<div class="modal fade" id="addUserRoosterModal" tabindex="-1" role="dialog" aria-labelledby="addUserRoosterModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="">Kreator grafików</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="row">
+                    <form id="addStatus-form" name="addStatus_form" method="POST" action="{{ path('add_status') }}">
+                        <div id="user-table-container" class="row">
+                            <table class="table table-hover table-sm table-bordered text-center" style="table-layout: fixed">
+                                    <thead>
+                                    <tr class="users-table-head ">
+                                        <th scope="col" class="body-first-column">Imię i nazwisko</th>
+                                        <th scope="col">Dział</th>
+                                        <th scope="col">Telefon</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col" class="body-last-column">Stanowisko</th>
+                                    </tr>
+                                    </thead>
+                                <tbody class="users-table-body">
+                                {% for user in users %}
+                                    <tr class="user-row" data-user-id="{{ user.id }}">
+                                        <td hidden data-user-id="{{ user.id }}">{{ user.id }}</td>
+                                        <td  class="body-first-column" style="border-right:0px solid">{{ user.fullName }}</td>
+                                        <td class="m-l-2">{{ user.department.name }}</td>
+                                        <td>{{ user.telephone }}</td>
+                                        <td class="m-r-2">{{ user.email }}</td>
+                                        <td class="body-last-column" style="border-left:0px solid">
+                                            {{ user.position }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer" style="display:block">
+                <div class="row">
+                    <div class="col text-center align-items-center">
+                        <button id="addRoosterUser-btn" type="button" class="btn btn-lg btn-success ">Dalej</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

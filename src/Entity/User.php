@@ -270,7 +270,7 @@ class User implements UserInterface
         $department = $this->department;
         if (null === $department) {
             $department = new Department();
-            $department->setName('No department');
+            $department->setName('Brak działu');
             return $department;
         }
         return $this->department;

@@ -1,0 +1,93 @@
+<div class="modal fade" id="addDutyRoosterModal" tabindex="-1" role="dialog" aria-labelledby="addDutyRoosterModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Kreator grafiku</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-5">
+                <div id="" class="">
+                    <div class="pb-2"><h6 class="font-weight-bold">Określ zakres obowiązywania grafiku</h6></div>
+                    <div class="form-group row">
+                        <label for="date-from" class="col-form-label">Od</label>
+                        <div class="col-4" style="max-width: 200px">
+                            <div class="form-group"><input type="text" id="date-from" required="required" placeholder=""
+                                                           class="form-control"></div>
+                        </div>
+                        <label for="date-to" class="col-form-label">Do</label>
+                        <div class="col-4" style="max-width: 200px">
+                            <div class="form-group"><input type="text" id="date-to" required="required"
+                                                           class="form-control"></div>
+                        </div>
+                    </div>
+                    <div class="pb-2"><h6 class="font-weight-bold">Określ dni obowiązywania grafiku</h6></div>
+                    <div class="row">
+                        <div class="btn-group" id="rooster-btns" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-work-day">Pn</button>
+                            <button type="button" class="btn btn-work-day">Wt</button>
+                            <button type="button" class="btn btn-work-day">Śr</button>
+                            <button type="button" class="btn btn-work-day">Czw</button>
+                            <button type="button" class="btn btn-work-day">Pt</button>
+                            <button type="button" class="btn btn-work-day">Sob</button>
+                            <button type="button" class="btn btn-work-day">Nd</button>
+                        </div>
+                    </div>
+                    <div class="pb-2 pt-3"><h6 class="font-weight-bold">Określ rozkład</h6></div>
+                    <div class="row pb-3">
+                        <div class="btn-group" role="group">
+                            <button type="button" id="normalize" class="btn btn-work">Normowany</button>
+                            <button type="button" id="not-normalize" class="btn btn-work">Nienormowany</button>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="normalized-form" >
+                        <label for="time-from" class="col-form-label">Od</label>
+                        <div class="col-3">
+                            <div class="form-group"><input type="text" id="time-from" required="required" placeholder=""
+                                                           class="form-control"></div>
+                        </div>
+                        <label for="time-to" class="col-form-label">Do</label>
+                        <div class="col-3">
+                            <div class="form-group"><input type="text" id="time-to" required="required"
+                                                           class="form-control"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="not-normalized-form" >
+                        <label for="time-from" class="col-form-label">ilość godzin</label>
+                        <div class="col-3">
+                            <div class="form-group"><input type="text" id="hours-amount" required="required"
+                                                           placeholder=""
+                                                           class="form-control"></div>
+                        </div>
+                    </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Licz czas przed pracą</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Licz czas po pracy</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Grafik nadgodzinowy</label>
+                        </div>
+                        <div class="pb-2"><h6 class="font-weight-bold">Opcje dodatkowe</h6></div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Nadpisz istniejące rozkłady</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Pomiń święta</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Powrót</button>
+                        <button type="button" class="btn btn-primary">Zapisz</button>
+                    </div>
+                </div>
+            </div>
+        </div>

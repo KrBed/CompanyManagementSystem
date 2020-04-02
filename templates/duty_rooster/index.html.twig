@@ -1,33 +1,56 @@
 {% extends 'duty_rooster/dutyRooster_base.html.twig' %}
 
 {% block title %}Hello DutyRoosterController!{% endblock %}
-
+ {% block department %}{% endblock %}
 {% block body %}
-    {{ dump(monthDays) }}
-    <div id="user-table-container" class="row">
-        <table class="table table-hover table-sm table-bordered text-center" style="table-layout: fixed">
-            <div class="bg-danger">
-                <thead>
-                <tr class="users-table-head">
-                    <th scope="col"  class="head-margin-column"></th>
-                    <th scope="col">Full Name</th>
-                    <th scope="col">Department</th>
+    <div class="row">
+        <div class="col-2 pr-0 pl-0" style="height: 91vh;overflow-x: scroll">
+            <table class="table table-sm table-bordered text-center" style="table-layout: fixed;">
+                <thead class="">
+                <tr class="rooster-table-head">
+                    <th scope="col">Osoba</th>
                 </tr>
                 </thead>
-            </div>
-            <tbody class="users-table-body">
-{#            {% for user in users %}#}
-{#                <tr>#}
-{#                    <td colspan="2" class="body-first-column" style="border-right:0px solid">{{ user.fullName }}</td>#}
-{#                    <td class="m-l-2">{{ user.department.name }}</td>#}
-{#                    <td>{{ user.telephone }}</td>#}
-{#                    <td class="m-r-2">{{ user.email }}</td>#}
-{#                    <td colspan="2" class="body-last-column" style="border-left:0px solid">#}
-{#                        {{ user.position }}#}
-{#                    </td>#}
-{#                </tr>#}
-{#            {% endfor %}#}
-            </tbody>
-        </table>
+                <tbody class="rooster-table-body">
+                {% for user in users %}
+                    <tr>
+                        <td class=""
+                            style="border-right:0px solid">
+                            <div class="rooster-user-wrapper">
+                                <p hidden>{{ user.id }}</p>
+                                <p class="rooster-user">{{ user.fullName }}</p>
+                                <p class="rooster-department">{{ user.department }}</p>
+                                <p class="rooster-schedule">160/20</p>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-10 pl-0" style="overflow-x: auto;height: 91vh">
+            <table class="table table-sm table-bordered" style="table-layout: fixed ">
+                <thead class="thead-light">
+                <tr class="rooster-table-head" widht="100%">
+                    {% for date,day in monthDays %}
+                        <th width="80px">{{ date }} {{ day|trans }}</th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody class="rooster-table-body">
+                {% for user in users %}
+                    <tr>
+                        <td hidden>{{ user.id }}</td>
+                        {% for day in monthDays %}
+                            <td>
+                                <div style="padding: 5px;background-color: red;height: 48px"></div>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
     </div>
 {% endblock %}
