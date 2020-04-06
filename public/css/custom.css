@@ -455,3 +455,11 @@
 .btn-work{
     border: 1px solid #ced4da;
 }
+.chk-size{
+    width:20px;
+    height:20px;
+}
+.check-label-p{
+    padding-left: 10px;
+    padding-top: 2px;
+}

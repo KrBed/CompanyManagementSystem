@@ -6,12 +6,21 @@ $(document).ready(function () {
     }, $.datepicker.regional["pl"])
     $('#date-from').datepicker();
     $('#date-to').datepicker();
-    $('#time-from').timepicker({});
+    $('#time-from').timepicker({
+        timeFormat: 'H:i',
+        interval: 30,
+    });
+    $('#time-to').timepicker({
+        timeFormat: 'H:i',
+        interval: 30,
+    });
 
 
     //dispalying modal
     $("#addRooster").on('click', function () {
         $('#addUserRoosterModal').modal();
+        $('#not-normalized-form').hide();
+        $('#normalize').addClass('button-group-bord-dark')
         $('.users-table-body').children().removeClass('bg-primary')
         enableDisableDutyButton()
     })
@@ -81,6 +90,7 @@ $(document).ready(function () {
         };
     })
 })
+
 $('#not-normalize').on('click', function () {
     let $notnormalize = $(this);
     let $normalize = $('#normalize');
