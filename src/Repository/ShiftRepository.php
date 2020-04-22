@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Shift;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @method Shift|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,10 +16,35 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class ShiftRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    /**
+     * @var ManagerRegistry
+     */
+    private $registry;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $em )
     {
         parent::__construct($registry, Shift::class);
+        $this->registry = $registry;
+        $this->em = $em;
     }
+    public function removeUserShiftsByDate($userId, \DateTime $startDate, \DateTime $endDate)
+    {
+        $qb = $this->createQueryBuilder('s')->leftJoin('s.user','user')->addSelect('user');
+        $shifts = $qb->andWhere('user.id LIKE :userId')->setParameter('userId',$userId)->andWhere('s.date >= :startDate AND s.date <= :endDate')
+            ->setParameter('startDate',$startDate)->setParameter('endDate',$endDate)->getQuery()->execute();
+
+        foreach ($shifts as $shift){
+           $this->em->remove($shift);
+        }
+        $this->em->flush();
+
+        return $shifts;
+    }
+
 
     // /**
     //  * @return DutyRooster[] Returns an array of DutyRooster objects

@@ -97,9 +97,9 @@ class User implements UserInterface
     private $statuses;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DutyRooster", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Shift", mappedBy="user", orphanRemoval=true)
      */
-    private $dutyRoosters;
+    private $shifts;
 
 
     public function __construct()
@@ -107,6 +107,7 @@ class User implements UserInterface
         $this->payRates = new ArrayCollection();
         $this->statuses = new ArrayCollection();
         $this->dutyRoosters = new ArrayCollection();
+        $this->shifts = new ArrayCollection();
 
     }
 
@@ -387,33 +388,34 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|DutyRooster[]
+     * @return Collection|Shift[]
      */
-    public function getDutyRoosters(): Collection
+    public function getShifts(): Collection
     {
-        return $this->dutyRoosters;
+        return $this->shifts;
     }
 
-    public function addDutyRooster(DutyRooster $dutyRooster): self
+    public function addShift(Shift $shift): self
     {
-        if (!$this->dutyRoosters->contains($dutyRooster)) {
-            $this->dutyRoosters[] = $dutyRooster;
-            $dutyRooster->setUser($this);
+        if (!$this->shifts->contains($shift)) {
+            $this->shifts[] = $shift;
+            $shift->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeDutyRooster(DutyRooster $dutyRooster): self
+    public function removeShift(Shift $shift): self
     {
-        if ($this->dutyRoosters->contains($dutyRooster)) {
-            $this->dutyRoosters->removeElement($dutyRooster);
+        if ($this->shifts->contains($shift)) {
+            $this->shifts->removeElement($shift);
             // set the owning side to null (unless already changed)
-            if ($dutyRooster->getUser() === $this) {
-                $dutyRooster->setUser(null);
+            if ($shift->getUser() === $this) {
+                $shift->setUser(null);
             }
         }
 
         return $this;
     }
+
 }

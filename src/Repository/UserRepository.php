@@ -36,6 +36,14 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+    public function getAllUserswithShifts(\DateTime $startDate, \DateTime $endDate)
+    {
+        $qb = $this->createQueryBuilder('user');
+
+       return  $qb->select('user')->from('App:User','u')->leftJoin('user.shifts','shifts')
+           ->addSelect('shifts')->andWhere('shifts.date >= :startDate AND shifts.date <= :endDate')
+           ->setParameter('startDate', $startDate)->setParameter('endDate', $endDate)->getQuery()->execute();
+    }
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
@@ -64,4 +72,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
     */
+    public function removeUserShiftsByDate($userId, \DateTime $startDate, \DateTime $endDate)
+    {
+        $qb = $this->createQueryBuilder('user')->innerJoin('user.shifts','shifts')->addSelect('shifts');
+        return $qb->andWhere('user.id LIKE :userId')->setParameter('userId',$userId)->andWhere('shifts.date >= :startDate AND shifts.date <= :endDate')
+            ->setParameter('startDate', $startDate)->setParameter('endDate', $endDate)->getQuery()->execute();
+    }
+    public function getUserShiftsInMonth(User $user, \DateTime $startDate, \DateTime $endDate)
+    {
+        $userId = $user->getId();
+        $qb = $this->createQueryBuilder('user')->innerJoin('user.shifts','shifts')->addSelect('shifts');
+        return $qb->andWhere('user.id LIKE :userId')->setParameter('userId',$userId)->andWhere('shifts.date >= :startDate AND shifts.date <= :endDate')
+            ->setParameter('startDate', $startDate)->setParameter('endDate', $endDate)->getQuery()->execute();
+    }
 }

@@ -9,6 +9,9 @@
                 </button>
             </div>
             <div class="modal-body p-5">
+                <div class="rooster-error">
+
+                </div>
                 <div id="" class="">
                     <div class="pb-2"><h6 class="font-weight-bold">Określ zakres obowiązywania grafiku</h6></div>
                     <div class="form-group row pl-3">
@@ -26,13 +29,13 @@
                     <div class="pb-2"><h6 class="font-weight-bold">Określ dni obowiązywania grafiku</h6></div>
                     <div class="row pl-3">
                         <div class="btn-group" id="rooster-btns" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-work-day">Pn</button>
-                            <button type="button" class="btn btn-work-day">Wt</button>
-                            <button type="button" class="btn btn-work-day">Śr</button>
-                            <button type="button" class="btn btn-work-day">Czw</button>
-                            <button type="button" class="btn btn-work-day">Pt</button>
-                            <button type="button" class="btn btn-work-day">Sob</button>
-                            <button type="button" class="btn btn-work-day">Nd</button>
+                            <button type="button" id="pn" value="1" class="btn btn-work-day">Pn</button>
+                            <button type="button" id="wt" value="2" class="btn btn-work-day">Wt</button>
+                            <button type="button" id="sr" value="3" class="btn btn-work-day">Śr</button>
+                            <button type="button" id="czw" value="4" class="btn btn-work-day">Czw</button>
+                            <button type="button" id="pt" value="5" class="btn btn-work-day">Pt</button>
+                            <button type="button" id="sob" value="6" class="btn btn-work-day">Sob</button>
+                            <button type="button" id="nd" value="7" class="btn btn-work-day">Nd</button>
                         </div>
                     </div>
                     <div class="pb-2 pt-3"><h6 class="font-weight-bold">Określ rozkład</h6></div>
@@ -42,7 +45,7 @@
                             <button type="button" id="not-normalize" class="btn btn-work">Nienormowany</button>
                         </div>
                     </div>
-                    <div class="form-group row pl-3" id="normalized-form" >
+                    <div class="form-group row pl-3" id="normalized-form">
                         <label for="time-from" class="col-form-label">Od</label>
                         <div class="col-3">
                             <div class="form-group"><input type="text" id="time-from" required="required" placeholder=""
@@ -54,7 +57,7 @@
                                                            class="form-control"></div>
                         </div>
                     </div>
-                    <div class="form-group row pl-3" id="not-normalized-form" >
+                    <div class="form-group row pl-3" id="not-normalized-form">
                         <label for="time-from" class="col-form-label">Ilość godzin</label>
                         <div class="col-3">
                             <div class="form-group"><input type="text" id="hours-amount" required="required"
@@ -62,33 +65,35 @@
                                                            class="form-control"></div>
                         </div>
                     </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input chk-size" id="exampleCheck1">
-                            <label class="form-check-label check-label-p" for="exampleCheck1">Licz czas przed pracą</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input chk-size" id="exampleCheck1">
-                            <label class="form-check-label check-label-p" for="exampleCheck1">Licz czas po pracy</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input chk-size" id="exampleCheck1">
-                            <label class="form-check-label check-label-p" for="exampleCheck1">Grafik nadgodzinowy</label>
-                        </div>
-                        <div class="pb-2 pt-3"><h6 class="font-weight-bold">Opcje dodatkowe</h6></div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input chk-size" id="exampleCheck1">
-                            <label class="form-check-label check-label-p" for="exampleCheck1">Nadpisz istniejące rozkłady</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input chk-size" id="exampleCheck1">
-                            <label class="form-check-label check-label-p" for="exampleCheck1">Pomiń święta</label>
-                        </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input chk-size" id="count-time-before-work">
+                        <label class="form-check-label check-label-p" for="exampleCheck1">Licz czas przed pracą</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input chk-size" id="count-time-after-work">
+                        <label class="form-check-label check-label-p" for="exampleCheck1">Licz czas po pracy</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input chk-size" id="overtime-dutyrooster">
+                        <label class="form-check-label check-label-p" for="exampleCheck1">Grafik nadgodzinowy</label>
+                    </div>
+                    <div class="pb-2 pt-3"><h6 class="font-weight-bold">Opcje dodatkowe</h6></div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input chk-size" id="exclude-christmas">
+                        <label class="form-check-label check-label-p" for="exampleCheck1">Pomiń święta</label>
                     </div>
                 </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Powrót</button>
-                <button type="button" class="btn btn-primary">Zapisz</button>
             </div>
+            <div class="modal-footer col text-center align-items-center" style="display:block">
+                <div class="row">
+                    <div class="col text-center align-items-center">
+                        <button type="button" class="btn btn-lg btn-secondary" data-dismiss="modal">Powrót</button>
+                        <button type="button" id="add-new-duty-rooster-btn" class="btn btn-lg btn-success ">Zapisz
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
+    </div>
 </div>

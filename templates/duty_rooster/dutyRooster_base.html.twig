@@ -6,27 +6,29 @@
               <li class="nav-item">
                   <a class="nav-link disabled" href="#">Grafik Pracy</a>
               </li>
-              <li class="nav-item"><a class="nav-link"><i
-                              class="material-icons no-line-height" style="font-size:24px;color:#b8babe">keyboard_arrow_left</i></a>
+                  <li class="nav-item" id="prev"  data-path=""><a href="{{ path('changeRoosterDate',{date: actualDate | date('d-m-Y'),direction:"prev"}) }}" class="nav-link"><i
+                                  class="material-icons no-line-height" style="font-size:24px;color:#b8babe">keyboard_arrow_left</i></a>
               </li>
               <li class="nav-item">
-                  <spa id="dutyRoosterDate" data-date="{{ actualDate | date('d-m-Y') }}"class="nav-link disabled">{{ actualDate|date('F Y') }}</span>
-
+                  <span id="dutyRoosterDate" data-date="{{ actualDate | date('d-m-Y') }}"class="nav-link disabled">{{ actualDate|date('F') | trans}} {{ actualDate |date('Y')}}</span>
               </li>
-              <li class="nav-item">
-                  <a class="nav-link"><i
+              <li class="nav-item" id="next" data-path="">
+                  <a class="nav-link" href="{{ path('changeRoosterDate',{date: actualDate | date('d-m-Y'),direction:"next"}) }}"><i
                               class="material-icons no-line-height" style="font-size:24px;color:#b8babe">keyboard_arrow_right</i></a>
               </li>
-              <li class="nav-item" id="addRooster"><a class="nav-link" data-toggle="tooltip" title="Dodaj grafik" data-placement="right"
+              <li class="nav-item" id="addRooster"><a  class="nav-link" data-toggle="tooltip" title="Dodaj grafik" data-placement="right"
                                       href="#"><i
                               class="material-icons no-line-height" style="font-size:24px;color:#b8babe">settings</i></a>
               </li>
-              <li class="nav-item">
-                  <a class="nav-link disabled" href="#">Przywróć</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link disabled" href="#">Opublikuj</a>
-              </li>
+              <form action="{{ path('duty_rooster', {'date': actualDate|date('d-m-Y')}) }}">
+                  <button type="submit" class="btn btn-sm btn-light" id="restore" disabled>
+                      Przywróć
+                  </button>
+              </form>
+
+              <button class="btn btn-sm btn-light" id="publish" disabled>
+                 Opublikuj
+              </button>
           </ul>
       </div>
   {% endblock navbar_links %}
@@ -38,7 +40,7 @@
 {% endblock %}
 {% block javascript %}
 {{ parent() }}
-
+<script src="{{ asset('js/dutyRooster.js') }}"></script>
 <script src="{{ asset('js/dutyRoosterModal.js') }}"></script>
 
 

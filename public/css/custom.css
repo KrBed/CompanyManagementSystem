@@ -463,3 +463,48 @@
     padding-left: 10px;
     padding-top: 2px;
 }
+.rooster-cell{
+    padding-top: 8px;
+    height: 48px;
+}
+.rooster-wrapper{
+    height: 48px;
+    text-align: center;
+}
+.rooster-time{
+    display:block;
+    font-size: 10px;
+    position: relative;
+}
+.rooster-overtime{
+    position: relative;
+    bottom: 2px;
+    display: block;
+    font-size: 10px;
+}
+.background-whitesmoke{
+    background-color: whitesmoke;
+}
+#publish{
+    padding: 2px;
+    padding-left:5px;
+    padding-right:5px;
+    height: 28px;
+    margin-left:5px;
+    margin-right:5px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+#restore{
+    padding: 2px;
+    padding-left:5px;
+    padding-right:5px;
+    height: 28px;
+    margin-left:5px;
+    margin-right:5px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+

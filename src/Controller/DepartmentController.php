@@ -26,7 +26,7 @@ class DepartmentController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param ValidatorInterface $validator
-     * @Route("/department/new",name="department_new",methods={"POST"} ))
+     * @Route("/department/new",name="department_new",methods={"POST"} )
      * @return JsonResponse
      */
     public function new(Request $request, EntityManagerInterface $em, ValidatorInterface $validator)

@@ -1,6 +1,6 @@
 {% extends 'duty_rooster/dutyRooster_base.html.twig' %}
 
-{% block title %}Hello DutyRoosterController!{% endblock %}
+{% block title %}Kreator grafików{% endblock %}
  {% block department %}{% endblock %}
 {% block body %}
     <div class="row">
@@ -11,13 +11,12 @@
                     <th scope="col">Osoba</th>
                 </tr>
                 </thead>
-                <tbody class="rooster-table-body">
-                {% for user in users %}
+                <tbody class="rooster-users-table-body">
+                {% for user in usersDto %}
                     <tr>
                         <td class=""
                             style="border-right:0px solid">
                             <div class="rooster-user-wrapper">
-                                <p hidden>{{ user.id }}</p>
                                 <p class="rooster-user">{{ user.fullName }}</p>
                                 <p class="rooster-department">{{ user.department }}</p>
                                 <p class="rooster-schedule">160/20</p>
@@ -32,20 +31,28 @@
             <table class="table table-sm table-bordered" style="table-layout: fixed ">
                 <thead class="thead-light">
                 <tr class="rooster-table-head" widht="100%">
-                    {% for date,day in monthDays %}
-                        <th width="80px">{{ date }} {{ day|trans }}</th>
+                    {% for date,value in monthDays %}
+                        <th width="80px">{{ value['monthDay'] }} {{ value['day']|trans }}</th>
                     {% endfor %}
                 </tr>
                 </thead>
-                <tbody class="rooster-table-body">
-                {% for user in users %}
-                    <tr>
-                        <td hidden>{{ user.id }}</td>
-                        {% for day in monthDays %}
-                            <td>
-                                <div style="padding: 5px;background-color: red;height: 48px"></div>
-                            </td>
-                        {% endfor %}
+                <tbody class="rooster-table-body" data-path="{{ path('addRooster') }}">
+                {% for user in usersDto %}
+                    <tr data-user-id="{{ user.id }}">
+                        {% for shift in user.shifts %}
+                        <td>
+                             {% set day = shift.weekday|trans %}
+                            <div style=""class="rooster-wrapper" data-date="{{ shift.date }}" data-numericDay="{{ shift.weekDayNumber }}"
+                                 value="{{ shift.weekDay|trans}}">
+                                <div class="rooster-cell">
+                                    {% if shift.timeFrom != null %}
+                                    <span class="rooster-time">{{ shift.timeFrom }}-{{ shift.timeTo }}</span>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                            {% endfor %}
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>

@@ -22,11 +22,6 @@ class Shift
     private $date;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $layout;
-
-    /**
      * @ORM\Column(type="time")
      */
     private $startTime;
@@ -37,40 +32,35 @@ class Shift
     private $endTime;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $numberOfHours;
-
-    /**
-     * @ORM\Column(type="smallint")
-     */
-    private $countTimeBeforeWork;
-
-    /**
-     * @ORM\Column(type="smallint")
-     */
-    private $countTimeAfterWork;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $note;
 
     /**
-     * @ORM\Column(type="smallint")
-     */
-    private $overrideExistingDutyRoosters;
-
-    /**
-     * @ORM\Column(type="smallint")
-     */
-    private $avoidChristmas;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\DutyRooster", inversedBy="shifts")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="shifts")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $dutyRooster;
+    private $user;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $overtimeDutyRooster;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $countTimeBeforeWork;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $countTimeAfterWork;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $numberOfHours;
 
     public function getId(): ?int
     {
@@ -85,18 +75,6 @@ class Shift
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
-
-        return $this;
-    }
-
-    public function getLayout(): ?string
-    {
-        return $this->layout;
-    }
-
-    public function setLayout(string $layout): self
-    {
-        $this->layout = $layout;
 
         return $this;
     }
@@ -125,41 +103,6 @@ class Shift
         return $this;
     }
 
-    public function getNumberOfHours(): ?int
-    {
-        return $this->numberOfHours;
-    }
-
-    public function setNumberOfHours(int $numberOfHours): self
-    {
-        $this->numberOfHours = $numberOfHours;
-
-        return $this;
-    }
-
-    public function getCountTimeBeforeWork(): ?int
-    {
-        return $this->countTimeBeforeWork;
-    }
-
-    public function setCountTimeBeforeWork(int $countTimeBeforeWork): self
-    {
-        $this->countTimeBeforeWork = $countTimeBeforeWork;
-
-        return $this;
-    }
-
-    public function getCountTimeAfterWork(): ?int
-    {
-        return $this->countTimeAfterWork;
-    }
-
-    public function setCountTimeAfterWork(int $countTimeAfterWork): self
-    {
-        $this->countTimeAfterWork = $countTimeAfterWork;
-
-        return $this;
-    }
 
     public function getNote(): ?string
     {
@@ -173,38 +116,62 @@ class Shift
         return $this;
     }
 
-    public function getOverrideExistingDutyRoosters(): ?int
+    public function getUser(): ?User
     {
-        return $this->overrideExistingDutyRoosters;
+        return $this->user;
     }
 
-    public function setOverrideExistingDutyRoosters(int $overrideExistingDutyRoosters): self
+    public function setUser(?User $user): self
     {
-        $this->overrideExistingDutyRoosters = $overrideExistingDutyRoosters;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getAvoidChristmas(): ?int
+    public function getOvertimeDutyRooster(): ?bool
     {
-        return $this->avoidChristmas;
+        return $this->overtimeDutyRooster;
     }
 
-    public function setAvoidChristmas(int $avoidChristmas): self
+    public function setOvertimeDutyRooster(?bool $overtimeDutyRooster): self
     {
-        $this->avoidChristmas = $avoidChristmas;
+        $this->overtimeDutyRooster = $overtimeDutyRooster;
 
         return $this;
     }
 
-    public function getDutyRooster(): ?DutyRooster
+    public function getCountTimeBeforeWork(): ?bool
     {
-        return $this->dutyRooster;
+        return $this->countTimeBeforeWork;
     }
 
-    public function setDutyRooster(?DutyRooster $dutyRooster): self
+    public function setCountTimeBeforeWork(?bool $countTimeBeforeWork): self
     {
-        $this->dutyRooster = $dutyRooster;
+        $this->countTimeBeforeWork = $countTimeBeforeWork;
+
+        return $this;
+    }
+
+    public function getCountTimeAfterWork(): ?bool
+    {
+        return $this->countTimeAfterWork;
+    }
+
+    public function setCountTimeAfterWork(?bool $countTimeAfterWork): self
+    {
+        $this->countTimeAfterWork = $countTimeAfterWork;
+
+        return $this;
+    }
+
+    public function getNumberOfHours(): ?int
+    {
+        return $this->numberOfHours;
+    }
+
+    public function setNumberOfHours(?int $numberOfHours): self
+    {
+        $this->numberOfHours = $numberOfHours;
 
         return $this;
     }
