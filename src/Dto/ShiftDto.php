@@ -12,6 +12,74 @@ class ShiftDto
     private $timeTo;
     private $weekDay;
     private $weekDayNumber;
+    private $overtimeDutyRooster;
+    private $countTimeBeforeWork;
+    private $countTimeAfterWork;
+
+    /**
+     * @return mixed
+     */
+    public function getOvertimeDutyRooster()
+    {
+        return $this->overtimeDutyRooster;
+    }
+
+    /**
+     * @param mixed $overtimeDutyRooster
+     */
+    public function setOvertimeDutyRooster($overtimeDutyRooster): void
+    {
+        $this->overtimeDutyRooster = $overtimeDutyRooster;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCountTimeBeforeWork()
+    {
+        return $this->countTimeBeforeWork;
+    }
+
+    /**
+     * @param mixed $countTimeBeforeWork
+     */
+    public function setCountTimeBeforeWork($countTimeBeforeWork): void
+    {
+        $this->countTimeBeforeWork = $countTimeBeforeWork;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getCountTimeAfterWork()
+    {
+        return $this->countTimeAfterWork;
+    }
+
+    /**
+     * @param boolean $countTimeAfterWork
+     */
+    public function setCountTimeAfterWork($countTimeAfterWork): void
+    {
+        $this->countTimeAfterWork = $countTimeAfterWork;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getNumberOfHours()
+    {
+        return $this->numberOfHours;
+    }
+
+    /**
+     * @param mixed integer
+     */
+    public function setNumberOfHours($numberOfHours): void
+    {
+        $this->numberOfHours = $numberOfHours;
+    }
+    private $numberOfHours;
 
     /**
      * @return mixed
@@ -60,6 +128,7 @@ class ShiftDto
     {
         $this->date = $date;
     }
+
 
     /**
      * @return mixed

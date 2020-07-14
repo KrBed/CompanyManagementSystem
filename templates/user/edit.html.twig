@@ -28,7 +28,7 @@
         </div>
     {% endmacro %}
 {% block department %}{% endblock %}
-{% block body_columns %}col-12{% endblock %}
+{% block body_columns  %}col-12{% endblock %}
 {% block body %}
 
     <div class="offset-3 col-6">
@@ -123,7 +123,7 @@
                     <div id="user-pay-rates"
                          data-prototype="{{ formMacros.printPayRateForm(userForm.payRates.vars.prototype)|e('html_attr') }}"
                          class="tab-pane container fade">
-                        <div class="row pb-5">
+                        <div class="row">
                             <button type="button" class="btn btn-primary js-add-payRate">Dodaj nowy okres</button>
                         </div>
                         <div id="pay-rates">
@@ -133,9 +133,6 @@
                         </div>
                     </div>
                     <div id="user-main3" class="tab-pane container fade">
-                        <div class="pb-2"><h6 class="font-weight-bold">Uprawnienia</h6></div>
-                        {{ form_row(userForm.roles) }}
-                        <div class="pb-2"><h6 class="font-weight-bold">Hasło</h6></div>
                         {{ form_row(userForm.plainPassword) }}
                     </div>
                 </div>
@@ -180,7 +177,7 @@
       $('.js-add-payRate').on('click',function() {
         count++;
          newForm = prototype.replace(/__name__/g,count);
-    
+
         $('#pay-rates').prepend(newForm);
       });
     })

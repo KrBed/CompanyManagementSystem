@@ -4,29 +4,30 @@
 {% block container %}container-fluid{% endblock %}
 {% block body %}
     <div id="user-table-container" class="row">
-        <table class="table table-hover table-sm table-bordered text-center" style="table-layout: fixed">
+        <table class="table table-hover table-sm table-bordered float-left" style="table-layout: fixed">
             <div class="bg-danger">
                 <thead>
                 <tr class="users-table-head">
-                    <th scope="col"  class="head-margin-column"></th>
-                    <th scope="col">Imię i nazwisko</th>
-                    <th scope="col">Dział</th>
-                    <th scope="col">Telefon</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Stanowisko</th>
+                    <th scope="col" class="head-margin-column pl-4"></th>
+                    <th scope="col" class="pl-4">Imię i nazwisko</th>
+                    <th scope="col" class="pl-4">Dział</th>
+                    <th scope="col" class="pl-4">Telefon</th>
+                    <th scope="col" class="pl-4">Email</th>
+                    <th scope="col" class="pl-4">Stanowisko</th>
                     <th class="head-margin-column"></th>
                 </tr>
                 </thead>
             </div>
-            <tbody class="users-table-body">
+            <tbody class="users-table-body ">
             {% for user in users %}
-                <tr>
-                    <td colspan="2" class="body-first-column" style="border-right:0px solid">{{ user.fullName }}</td>
-                    <td class="m-l-2">{{ user.department.name }}</td>
-                    <td>{{ user.telephone }}</td>
-                    <td class="m-r-2">{{ user.email }}</td>
-                    <td colspan="2" class="body-last-column" style="border-left:0px solid">
-                        {{ user.position }}
+                <tr class="user-row" data-user-id="{{ user.id }}">
+                    <td colspan="2" class="body-first-column pl-3"
+                        style="border-right:0px solid">{{ user.fullName }}</td>
+                    <td class="m-l-2 pl-3">{{ user.department.name }}</td>
+                    <td class="pl-3">{{ user.telephone }}</td>
+                    <td class="m-r-2 pl-3">{{ user.email }}</td>
+                    <td data-delete-path="{{ path('admin_users_delete',{id:user.id}) }}" data-update-path="{{ path('admin_users_edit',{id:user.id}) }}" colspan="2" class="body-last-column pl-4" style="border-left:0px solid">
+                        {{ user.position.name }}
                     </td>
                 </tr>
             {% endfor %}
@@ -41,12 +42,12 @@
                 Nazwa działu
             </div>
             <div class="department-wrapper">
-            {% for department in departments %}
-                <div class="alert alert-light dep-item">
-                    {{ department }}
-                </div>
+                {% for department in departments %}
+                    <div class="alert alert-light dep-item">
+                        {{ department }}
+                    </div>
 
-            {% endfor %}
+                {% endfor %}
             </div>
         </div>
 

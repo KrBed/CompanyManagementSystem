@@ -24,7 +24,7 @@
                                     </thead>
                                 <tbody class="users-table-body">
                                 {% for user in users %}
-                                    <tr class="user-row" data-user-id="{{ user.id }}">
+                                    <tr class="timesheet-user-row" data-user-id="{{ user.id }}">
                                         <td hidden data-user-id="{{ user.id }}">{{ user.id }}</td>
                                         <td  class="body-first-column" style="border-right:0px solid">{{ user.fullName }}</td>
                                         <td class="m-l-2">{{ user.department.name }}</td>

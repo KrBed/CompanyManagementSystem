@@ -7,7 +7,42 @@
 </div>
 <h3 class="p-3">Twój grafik pracy</h3>
 <div class="row">
-
+    <div class="col-10 p-0" style="overflow-x: auto;margin-left: 25px;">
+        <table class="table table-sm table-bordered" style="table-layout: fixed ">
+            <thead class="thead-light">
+            <tr class="rooster-table-head" widht="">
+                {% for date,value in monthDays %}
+                    <th width="80px">{{ value['monthDay'] }} {{ value['day']|trans }}</th>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody class="rooster-table-body" data-path="{{ path('addRooster') }}">
+            <tr>
+                {% for shift in shiftsDto %}
+                <td>
+                    {% set day = shift.weekday|trans %}
+                    <div style="" class="rooster-wrapper" data-date="{{ shift.date }}"
+                         data-numericDay="{{ shift.weekDayNumber }}"
+                         value="{{ shift.weekDay|trans }}">
+                        <div class="rooster-cell">
+                            {% if shift.timeFrom != null %}
+                                <span class="rooster-time">{{ shift.timeFrom }}-{{ shift.timeTo }}</span>
+                            {% endif %}
+                            {% if shift.countTimeBeforeWork != null %}
+                            <span class="rooster-overtime">+nadgodziny</span>
+                            {% elseif shift.countTimeAfterWork != null %}
+                            <span class="rooster-overtime">+nadgodziny</span>
+                            {% elseif shift.overtimeDutyRooster != null %}
+                                <span class="rooster-overtime">Grafik nadgodz.</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 <h3 class="p-3">Twoje statystyki</h3>
 <div class="row">
@@ -31,11 +66,11 @@
                     <div class="list-container" id="{{ key }}">
                         {% for status in workStatuses[key] %}
                             {% if status.name =="Wejście" %}
-                            {% set color = "text-success" %}
-                        {% else %}
-                            {% set color = "text-danger" %}
+                                {% set color = "text-success" %}
+                            {% else %}
+                                {% set color = "text-danger" %}
                             {% endif %}
-                            <div class="list-element" >
+                            <div class="list-element">
                                 <span class="event-time {{ color }}">{{ status.time }} - {{ status.name }}</span>
                                 <span class="user-name">{{ status.userName }}</span>
                                 <span class="department-name">{{ status.department }}</span>

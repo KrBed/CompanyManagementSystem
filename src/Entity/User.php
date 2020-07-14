@@ -83,6 +83,7 @@ class User implements UserInterface
     private $department;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\PayRate", mappedBy="user",cascade={"persist"})
+
      */
     private $payRates;
 
@@ -317,6 +318,13 @@ class User implements UserInterface
 
     public function getPosition(): ?Position
     {
+       $position =  $this->position;
+        if(null === $position){
+            $position = new Position();
+            $position->setName('Brak stanowiska');
+            return $position;
+        }
+
         return $this->position;
     }
 

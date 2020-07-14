@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\WorkStatus;
 use App\Repository\WorkStatusRepository;
+use App\Service\DateTimeService;
+use App\Service\ShiftService;
 use App\ViewModels\WorkStatusDto;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -11,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class OverviewController
@@ -28,11 +31,21 @@ class OverviewController extends AbstractController
      * @var WorkStatusRepository
      */
     private $workStatusRepository;
+    /**
+     * @var Security
+     */
+    private $security;
+    /**
+     * @var ShiftService
+     */
+    private $shiftService;
 
-    public function __construct(EntityManagerInterface $em,WorkStatusRepository $workStatusRepository)
+    public function __construct(EntityManagerInterface $em, WorkStatusRepository $workStatusRepository, Security $security, ShiftService $shiftService)
     {
         $this->em = $em;
         $this->workStatusRepository = $workStatusRepository;
+        $this->security = $security;
+        $this->shiftService = $shiftService;
     }
 
     /**
@@ -40,12 +53,17 @@ class OverviewController extends AbstractController
      */
     public function index()
     {
-        $workStatuses = $this->workStatusRepository->findBy([],['date'=>'DESC']);
+        $user = $this->security->getUser();
+        $date = new \DateTime('now');
+        $monthDays = DateTimeService::getDaysInMonth($date);
+        $shiftsDto = $this->shiftService->createShiftDtoForUser($user, $date);
+//        dump($shiftsDto);die;
+        $workStatuses = $this->workStatusRepository->findBy([], ['date' => 'DESC']);
 
         $workStatusesDto = WorkStatusDto::createManyWorkStatuses($workStatuses);
 
         return $this->render('overview/index.html.twig', [
-            'workStatuses' => $workStatusesDto
+            'workStatuses' => $workStatusesDto,'shiftsDto'=>$shiftsDto,'monthDays'=>$monthDays
         ]);
     }
 
@@ -58,11 +76,11 @@ class OverviewController extends AbstractController
     public function addStatus(Request $request)
     {
         if ($request->isXmlHttpRequest()) {
-            $workStatus = new WorkStatus($this->getUser(),$request->request->get('status'),new \DateTime(),'RCP');
+            $workStatus = new WorkStatus($this->getUser(), $request->request->get('status'), new \DateTime(), 'RCP');
 
             $this->em->persist($workStatus);
             $this->em->flush();
-            $workStatusDto = WorkStatusDto::createWorkStatusDto($workStatus,'RCP');
+            $workStatusDto = WorkStatusDto::createWorkStatusDto($workStatus, 'RCP');
             $data = json_encode($workStatusDto);
 
             return new JsonResponse($data);

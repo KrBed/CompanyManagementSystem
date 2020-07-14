@@ -111,12 +111,12 @@ class DutyRoosterController extends AbstractController
     public function index($date)
     {
         $users = $this->userRepository->findAll();
-        $actualDate = DateTimeService::getDateFromDateString($date);
+        $actualDate = DateTimeService::getDateFromDateString($date,null);
         if ($date == null){
             $actualDate = new \DateTime();
         }
         $monthDays = DateTimeService::getDaysInMonth($actualDate);
-        $usersDto = $this->shiftService->getUserDtoWithShiftsInMonth($users, $actualDate);
+        $usersDto = $this->shiftService->getUsersDtoWithShiftsInMonth($users, $actualDate);
         return $this->render('duty_rooster/index.html.twig', ['monthDays' => $monthDays, 'users' => $users, 'usersDto' => $usersDto, 'actualDate' => $actualDate]);
     }
 

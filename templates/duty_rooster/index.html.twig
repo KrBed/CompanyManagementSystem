@@ -48,6 +48,13 @@
                                     {% if shift.timeFrom != null %}
                                     <span class="rooster-time">{{ shift.timeFrom }}-{{ shift.timeTo }}</span>
                                     {% endif %}
+                                    {% if shift.countTimeBeforeWork != null %}
+                                        <span class="rooster-overtime">+nadgodziny</span>
+                                    {% elseif shift.countTimeAfterWork != null %}
+                                        <span class="rooster-overtime">+nadgodziny</span>
+                                    {% elseif shift.overtimeDutyRooster != null %}
+                                        <span class="rooster-overtime">Grafik nadgodz.</span>
+                                    {% endif %}
                                 </div>
 
                             </div>

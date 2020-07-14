@@ -36,7 +36,7 @@ class PayRate
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="payRates")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true,onDelete="SET NULL")
      */
     private $user;
 

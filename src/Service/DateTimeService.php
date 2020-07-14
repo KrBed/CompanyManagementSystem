@@ -24,13 +24,14 @@ class DateTimeService
             return $monthDays;
         }
 
-        public static function getDateFromDateString($date,$direction = null){
+        public static function getDateFromDateString($date,$direction){
             $day = (int)substr($date, 0, 2);
             $month = (int)substr($date, 3, 2);
             $year = (int)substr($date, 6, 4);
             $date = new \DateTime();
             $date->setDate($year,$month,$day);
-            if($direction !="prev" || $direction !="next"){
+
+            if($direction !="prev" and $direction !="next"){
                 return $date;
             }
 

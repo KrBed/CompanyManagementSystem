@@ -50,8 +50,7 @@ $(document).ready(function () {
     })
 
     //get user data and change row color on list
-
-    $(".user-row").on('click', function () {
+    $(".timesheet-user-row").on('click', function () {
         let tickClass = 'bg-primary';
         row = $(this);
         userId = row.attr('data-user-id');
