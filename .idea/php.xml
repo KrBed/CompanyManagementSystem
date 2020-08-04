@@ -84,6 +84,9 @@
       <path value="$PROJECT_DIR$/vendor/symfony/form" />
       <path value="$PROJECT_DIR$/vendor/components/jquery" />
       <path value="$PROJECT_DIR$/vendor/symfony/translation" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/data-fixtures" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-fixtures-bundle" />
+      <path value="$PROJECT_DIR$/vendor/fzaninotto/faker" />
     </include_path>
   </component>
   <component name="PhpProjectServersManager">

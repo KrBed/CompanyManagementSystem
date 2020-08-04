@@ -8,6 +8,7 @@
         "ext-json": "*",
         "components/jquery": "^3.4",
         "doctrine/annotations": "^1.8",
+        "fzaninotto/faker": "^1.9",
         "gedmo/doctrine-extensions": "^2.4",
         "sensio/framework-extra-bundle": "^5.5",
         "symfony/asset": "4.4.*",
@@ -28,6 +29,7 @@
         "twbs/bootstrap": "4.4.1"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.3"
     },
     "config": {
         "preferred-install": {
