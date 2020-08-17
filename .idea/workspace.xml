@@ -1,29 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c494bd5e-3b41-42ab-8b84-5e2bc29b33c9" name="Default Changelist" comment="commit 07.14">
-      <change afterPath="$PROJECT_DIR$/src/Entity/Timesheet.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/WorkRegistry.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/CompanyManagementSystem.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CompanyManagementSystem.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/symfony2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/symfony2.xml" afterDir="false" />
+    <list default="true" id="c494bd5e-3b41-42ab-8b84-5e2bc29b33c9" name="Default Changelist" comment="Fake Fixtures">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/DutyRoosterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/DutyRoosterController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/UserFormType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/UserFormType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20200216110106.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20200216112708.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20200216124406.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20200416111000.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20200417150647.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20200417151528.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20200417151957.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/ShiftService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/ShiftService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/modals/addDutyRoosterModal.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/modals/addDutyRoosterModal.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20200216110106.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Migrations/Version20200726101452.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -332,7 +312,7 @@
       <workItem from="1596375386293" duration="2454000" />
       <workItem from="1596379591590" duration="4349000" />
       <workItem from="1596471995849" duration="6444000" />
-      <workItem from="1596560549605" duration="3235000" />
+      <workItem from="1596560549605" duration="4571000" />
     </task>
     <task id="LOCAL-00001" summary="Crating new User">
       <created>1578312941440</created>
@@ -404,7 +384,14 @@
       <option name="project" value="LOCAL" />
       <updated>1594703515594</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Fake Fixtures">
+      <created>1596563857343</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1596563857343</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -432,7 +419,8 @@
     <MESSAGE value="duty rooster step 1" />
     <MESSAGE value="timesheet finish" />
     <MESSAGE value="commit 07.14" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit 07.14" />
+    <MESSAGE value="Fake Fixtures" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fake Fixtures" />
   </component>
   <component name="WindowStateProjectService">
     <state x="744" y="235" key="#com.intellij.ide.util.MemberChooser" timestamp="1595875930223">
@@ -447,46 +435,46 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="274" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1595770271290" />
-    <state x="0" y="29" width="1920" height="982" key="CommitChangelistDialog2" timestamp="1595767457154">
+    <state x="0" y="29" width="1920" height="982" key="CommitChangelistDialog2" timestamp="1596563853498">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="0" y="29" width="1920" height="982" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1595767457154" />
+    <state x="0" y="29" width="1920" height="982" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596563853498" />
     <state width="678" height="644" key="DebuggerActiveHint" timestamp="1596563040167">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="678" height="644" key="DebuggerActiveHint/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596563040167" />
-    <state width="929" height="235" key="GridCell.Tab.0.bottom" timestamp="1596563528927">
+    <state width="929" height="235" key="GridCell.Tab.0.bottom" timestamp="1596569053279">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="929" height="235" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596563528927" />
-    <state width="929" height="235" key="GridCell.Tab.0.center" timestamp="1596563528926">
+    <state width="929" height="235" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596569053279" />
+    <state width="929" height="235" key="GridCell.Tab.0.center" timestamp="1596569053279">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="929" height="235" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596563528926" />
-    <state width="929" height="235" key="GridCell.Tab.0.left" timestamp="1596563528926">
+    <state width="929" height="235" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596569053279" />
+    <state width="929" height="235" key="GridCell.Tab.0.left" timestamp="1596569053279">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="929" height="235" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596563528926" />
-    <state width="929" height="235" key="GridCell.Tab.0.right" timestamp="1596563528926">
+    <state width="929" height="235" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596569053279" />
+    <state width="929" height="235" key="GridCell.Tab.0.right" timestamp="1596569053279">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="929" height="235" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596563528926" />
-    <state width="929" height="235" key="GridCell.Tab.1.bottom" timestamp="1596563528927">
+    <state width="929" height="235" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596569053279" />
+    <state width="929" height="235" key="GridCell.Tab.1.bottom" timestamp="1596569053280">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="929" height="235" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596563528927" />
-    <state width="929" height="235" key="GridCell.Tab.1.center" timestamp="1596563528927">
+    <state width="929" height="235" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596569053280" />
+    <state width="929" height="235" key="GridCell.Tab.1.center" timestamp="1596569053280">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="929" height="235" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596563528927" />
-    <state width="929" height="235" key="GridCell.Tab.1.left" timestamp="1596563528927">
+    <state width="929" height="235" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596569053280" />
+    <state width="929" height="235" key="GridCell.Tab.1.left" timestamp="1596569053280">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="929" height="235" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596563528927" />
-    <state width="929" height="235" key="GridCell.Tab.1.right" timestamp="1596563528927">
+    <state width="929" height="235" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596569053280" />
+    <state width="929" height="235" key="GridCell.Tab.1.right" timestamp="1596569053280">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="929" height="235" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596563528927" />
+    <state width="929" height="235" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596569053280" />
     <state x="711" y="318" key="NewPhpClassDialog" timestamp="1596561392149">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -499,14 +487,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="498" height="446" key="SwitcherDM/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1593624703090" />
-    <state x="552" y="248" key="Vcs.Push.Dialog.v2" timestamp="1594703519906">
+    <state x="552" y="248" key="Vcs.Push.Dialog.v2" timestamp="1596563860563">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="248" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1594703519906" />
-    <state x="636" y="343" key="com.intellij.ide.util.TipDialog" timestamp="1596560554937">
+    <state x="552" y="248" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596563860563" />
+    <state x="636" y="343" key="com.intellij.ide.util.TipDialog" timestamp="1597637636218">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="636" y="343" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1596560554937" />
+    <state x="636" y="343" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1597637636218" />
     <state x="616" y="240" key="run.anything.popup" timestamp="1596353818452">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
