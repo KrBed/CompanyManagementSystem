@@ -102,9 +102,6 @@
     "gedmo/doctrine-extensions": {
         "version": "v2.4.38"
     },
-    "jdorn/sql-formatter": {
-        "version": "v1.2.17"
-    },
     "monolog/monolog": {
         "version": "1.26.1"
     },
@@ -433,11 +430,5 @@
     },
     "twig/twig": {
         "version": "v3.0.1"
-    },
-    "zendframework/zend-code": {
-        "version": "3.4.1"
-    },
-    "zendframework/zend-eventmanager": {
-        "version": "3.2.1"
     }
 }
