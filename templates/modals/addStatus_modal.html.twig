@@ -3,17 +3,17 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addStatusModalDialogTitle">Add Status</h5>
+                <h5 class="modal-title" id="addStatusModalDialogTitle">{{'Add Status'|trans  }}</h5>
             </div>
             <div class="modal-body p-4">
                 <div class="row">
                     <form id="addStatus-form" name="addStatus_form" method="POST" action="{{ path('add_status') }}">
-                        <h5 class="pb-3">Choose status</h5>
+                        <h5 class="pb-3">{{ 'Choose status'|trans }}</h5>
                         <a href="#"  id="enter-btn" type="button" class="btn btn-lg btn-outline-success" data-status="Wejście">
-                            Enter
+                            {{ 'Enter'|trans  }}
                         </a>
                         <a href="#" id="exit-btn" type="button" class="btn btn-lg btn-outline-danger" data-status="Wyjście">
-                            Exit
+                            {{ 'Exit'|trans }}
                         </a>
                         <span class="pt-1 text-danger js-addStatus-error"></span>
                     </form>
@@ -22,7 +22,7 @@
             <div class="modal-footer" style="display:block">
                 <div class="row">
                     <div class="col text-center align-items-center">
-                        <button id="addStatus-btn" type="button" class="btn btn-lg btn-success ">Save changes</button>
+                        <button id="addStatus-btn" type="button" class="btn btn-lg btn-success ">{{ 'Save changes'|trans }}</button>
                     </div>
                 </div>
             </div>

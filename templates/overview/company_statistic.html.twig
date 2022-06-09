@@ -1,0 +1,58 @@
+<h3 class="p-3">Statystyki firmy</h3>
+<div class="row calendar">
+        <span class="js-calendar-arrow"
+              data-path="{{ path('changeRoosterDate',{date: actualDate | date('d-m-Y'),direction:"prev"}) }}"><a
+                    href="#"
+                    class="nav-link"><i
+                        class="material-icons no-line-height"
+                        style="font-size:24px;color:#b8babe">keyboard_arrow_left</i></a>
+        </span>
+
+    <span id="dutyRoosterDate" data-date="{{ actualDate | date('d-m-Y') }}"
+          class="nav-link disabled">{{ actualDate|date('F') | trans }} {{ actualDate |date('Y') }}</span>
+    <span class="js-calendar-arrow"
+          data-path="{{ path('changeRoosterDate',{date: actualDate | date('d-m-Y'),direction:"next"}) }}">
+            <a class="" href="#"><i
+                        class="material-icons no-line-height"
+                        style="font-size:24px;color:#b8babe">keyboard_arrow_right</i></a>
+        </span>
+</div>
+<div class="p-3 row userStatistics"> {# do zmiany cały div #}
+    <div class="col-2">
+        <div class="stats">
+            <p class="label">{{ 'Najwięcej godzin pracy'|trans }}</p>
+            <p class="stats-input">{{ statistics.totalWorkTime.h }}h {% if statistics.overtime.m != 0 %}{{ statistics.totalWorkTime.m }}m{% endif %}</p>
+            <p class="label">{{ 'Łukasz Mróz'|trans }}</p>
+        </div>
+    </div>
+    <div class="col-2">
+        <div class="stats">
+            <p class="label">{{ 'Najmniej godzin pracy'|trans }}</p>
+            <p class="stats-input">{{ statistics.overtime.h }}h {% if statistics.overtime.m != 0 %}{{ statistics.overtime.m }}m{% endif %}</p>
+            <p class="label">{{ 'Jakub Sikorski'|trans }}</p>
+        </div>
+    </div>
+
+    <div class="col-2">
+        <div class="stats">
+            <p class="label">{{ 'Najmniej obecności'|trans }}</p>
+            <p class="stats-input">{{ statistics.lateness.h }}h {% if statistics.lateness.m != 0 %}{{ statistics.lateness.m }}m{% endif %}</p>
+            <p class="label">{{ 'Jakub Sikorski'|trans }}</p>
+        </div>
+    </div>
+    <div class="col-2">
+        <div class="stats">
+            <p class="label">{{ 'Najwięcej nieobecności'|trans }}</p>
+            <p class="stats-input">{{ statistics.presence }} {{ 'dni'|trans }}</p>
+            <p class="label">{{ 'Sonia Nowak'|trans }}</p>
+
+        </div>
+    </div>
+    <div class="col-2">
+        <div class="stats">
+            <p class="label">{{ 'Przesłanych statusów pracy'|trans }}</p>
+            <p class="stats-input">{{ statistics.absence }} {{ 'dni'|trans }}</p>
+            <p class="label">{{ 'Iwo Szymański'|trans }}</p>
+        </div>
+    </div>
+</div>

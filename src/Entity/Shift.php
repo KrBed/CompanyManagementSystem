@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -61,6 +63,16 @@ class Shift
      * @ORM\Column(type="smallint", nullable=true)
      */
     private $numberOfHours;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\WorkStatus", mappedBy="shift", cascade={"persist"})
+     */
+    private $workStatuses;
+
+    public function __construct()
+    {
+        $this->workStatuses = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -172,6 +184,37 @@ class Shift
     public function setNumberOfHours(?int $numberOfHours): self
     {
         $this->numberOfHours = $numberOfHours;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|WorkStatus[]
+     */
+    public function getWorkStatuses(): Collection
+    {
+        return $this->workStatuses;
+    }
+
+    public function addWorkStatus(WorkStatus $workStatus): self
+    {
+        if (!$this->workStatuses->contains($workStatus)) {
+            $this->workStatuses[] = $workStatus;
+            $workStatus->setShift($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWorkStatus(WorkStatus $workStatus): self
+    {
+        if ($this->workStatuses->contains($workStatus)) {
+            $this->workStatuses->removeElement($workStatus);
+            // set the owning side to null (unless already changed)
+            if ($workStatus->getShift() === $this) {
+                $workStatus->setShift(null);
+            }
+        }
 
         return $this;
     }

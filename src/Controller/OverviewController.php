@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\WorkStatus;
+use App\Repository\ShiftRepository;
 use App\Repository\WorkStatusRepository;
 use App\Service\DateTimeService;
 use App\Service\ShiftService;
+use App\Service\UserStatisticService;
 use App\ViewModels\WorkStatusDto;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -50,20 +52,34 @@ class OverviewController extends AbstractController
 
     /**
      * @Route("/", name="overview")
+     * @param UserStatisticService $userService
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index()
+    public function index(UserStatisticService $userService)
     {
         $user = $this->security->getUser();
         $date = new \DateTime('now');
+
         $monthDays = DateTimeService::getDaysInMonth($date);
         $shiftsDto = $this->shiftService->createShiftDtoForUser($user, $date);
-//        dump($shiftsDto);die;
+
         $workStatuses = $this->workStatusRepository->findBy([], ['date' => 'DESC']);
 
         $workStatusesDto = WorkStatusDto::createManyWorkStatuses($workStatuses);
+        $userStatistic = $userService->getUserStatistic($user, $date);
+
+        $timesheetView = $this->renderView('duty_rooster/timesheet.html.twig',['shiftsDto'=>$shiftsDto,'monthDays'=>$monthDays,'actualDate'=>$date->format('d-m-Y')]);
+        $userStatisticView = $this->renderView('overview/user_statistic.html.twig',['actualDate'=>$date->format('d-m-Y'),'statistics'=>$userStatistic]);
+        $companyStatisticView = $this->renderView('overview/company_statistic.html.twig',['actualDate'=>$date->format('d-m-Y'),'statistics'=>$userStatistic]);
 
         return $this->render('overview/index.html.twig', [
-            'workStatuses' => $workStatusesDto,'shiftsDto'=>$shiftsDto,'monthDays'=>$monthDays
+            'workStatuses' => $workStatusesDto,
+            'shiftsDto' => $shiftsDto,
+            'monthDays' => $monthDays,
+            'actualDate' => $date,
+            'timesheetView' => $timesheetView,
+            'userStatisticView' => $userStatisticView,
+            'companyStatisticView' => $companyStatisticView
         ]);
     }
 
@@ -73,10 +89,22 @@ class OverviewController extends AbstractController
      * @throws \Exception
      * @Route("/addStatus", name="add_status")
      */
-    public function addStatus(Request $request)
+    public function addStatus(Request $request,ShiftRepository $shiftRepo)
     {
         if ($request->isXmlHttpRequest()) {
-            $workStatus = new WorkStatus($this->getUser(), $request->request->get('status'), new \DateTime(), 'RCP');
+            $dateFrom = new \DateTime('now');
+            $dateTo = new \DateTime('now');
+            $dateFrom->setTime(0,0,0);
+            $dateTo->setTime(23,59,59);
+
+            $shift = $shiftRepo->findUserShiftsByDate($this->getUser(),$dateFrom,$dateTo);
+            if(!empty($shift)){
+                $shift = $shift[0];
+            }else{
+                $shift = null;
+            }
+
+            $workStatus = new WorkStatus($this->getUser(),$shift, $request->request->get('status'), new \DateTime(), 'RCP');
 
             $this->em->persist($workStatus);
             $this->em->flush();
@@ -87,5 +115,22 @@ class OverviewController extends AbstractController
         }
 
         return new JsonResponse([]);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @Route("/overview/userStatistics/{date}/{direction}/", name="user_statistics",methods="GET",defaults={"direction"=null})
+     */
+    public function userStatisticsAction(Request $request,UserStatisticService $userService){
+
+        $user = $this->security->getUser();
+        $actualDate = DateTimeService::getDateFromDateString($request->get('date'),$request->get('direction'));
+
+        $statistics = $userService->getUserStatistic($user,$actualDate);
+
+        $statisticsView = $this->renderView('overview/user_statistic.html.twig',['statistics'=>$statistics,'actualDate'=>$actualDate]);
+
+        return new JsonResponse($statisticsView);
     }
 }

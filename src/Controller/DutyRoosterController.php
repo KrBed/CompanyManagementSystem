@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DutyRoosterController extends AbstractController
 {
@@ -21,11 +23,21 @@ class DutyRoosterController extends AbstractController
      * @var ShiftService
      */
     private $shiftService;
+    /**
+     * @var Security
+     */
+    private $security;
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
 
-    public function __construct(UserRepository $userRepository,ShiftService $shiftService)
+    public function __construct(UserRepository $userRepository,ShiftService $shiftService,Security $security,TranslatorInterface $translator)
     {
         $this->userRepository = $userRepository;
         $this->shiftService = $shiftService;
+        $this->security = $security;
+        $this->translator = $translator;
     }
 
     /**
@@ -37,10 +49,12 @@ class DutyRoosterController extends AbstractController
      */
     public function addRooster(Request $request, EntityManagerInterface $em,ShiftService $shiftService)
     {
+
         if ($request->isXmlHttpRequest()) {
             $timesheets = $request->request->get('timesheet');
 
             $shifts = $shiftService->createShiftFromTimesheets($timesheets);
+
             foreach ($shifts as $shift){
                 $em->persist($shift);
             }
@@ -60,10 +74,13 @@ class DutyRoosterController extends AbstractController
     public function index($date)
     {
         $users = $this->userRepository->findAll();
-        $actualDate = DateTimeService::getDateFromDateString($date,null);
-        if ($date == null){
+
+        if ($date == null) {
             $actualDate = new \DateTime();
+        } else {
+            $actualDate = DateTimeService::getDateFromDateString($date, null);
         }
+
         $monthDays = DateTimeService::getDaysInMonth($actualDate);
         $usersDto = $this->shiftService->getUsersDtoWithShiftsInMonth($users, $actualDate);
         return $this->render('duty_rooster/index.html.twig', ['monthDays' => $monthDays, 'users' => $users, 'usersDto' => $usersDto, 'actualDate' => $actualDate]);
@@ -80,5 +97,23 @@ class DutyRoosterController extends AbstractController
         $changedDate = DateTimeService::getDateFromDateString($date, $direction);
 
         return $this->redirectToRoute('duty_rooster',[ 'date' => $changedDate->format('d-m-Y')]);
+    }
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \Exception
+     * @Route("/duty_rooster/getMonthTimesheetForUser/{date}/{direction}",name="getMonthTimesheetForUser",methods={"GET"},defaults={"direction"=null})
+     */
+    public function getMonthTimesheetForUser(Request $request,ShiftService $shiftService){
+        $user = $this->security->getUser();
+
+        $monthDays = DateTimeService::getDaysInMonth(\DateTime::createFromFormat("d-m-Y",$request->get('date')));
+
+        $actualDate = DateTimeService::getDateFromDateString($request->get('date'),$request->get('direction'));
+
+        $shiftsDto = $shiftService->createShiftDtoForUser($user,$actualDate);
+        $shiftsView = $this->renderView('duty_rooster/timesheet.html.twig',['shiftsDto' => $shiftsDto,'monthDays'=>$monthDays,'actualDate'=>$actualDate->format('d-m-Y')]);
+
+        return new JsonResponse([$shiftsView]);
     }
 }

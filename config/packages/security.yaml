@@ -17,6 +17,8 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            form_login:
+                always_use_default_target_path: true
             anonymous: lazy
             logout:
                 path: app_logout

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block title %}Zestawienie miesięczne{% endblock %}
+{% block department %} {% endblock %}
+{% block body_columns %}col-12{% endblock %}
+{% block navbar_links %}
+    <div class="collapse navbar-collapse" id="">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <span class="nav-link">Zestawienie miesięczne</span>
+            </li>
+        </ul>
+    </div>
+{% endblock navbar_links %}
+{% block body %}
+
+<div class="user-statistics js-data-container ">
+    {{ userStatisticView | raw }}
+</div>
+
+{% block javascript %}
+{{ parent() }}
+<script>
+    $(document).on('click', '.js-calendar-arrow', function () {
+        var url = $(this).data('path');
+        var cont = $(this).parent().closest('.js-data-container')
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (data) {
+                cont.html(data);
+            }
+        })
+    })
+</script>
+{% endblock %}
+

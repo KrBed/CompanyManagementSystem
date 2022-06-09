@@ -29,9 +29,10 @@ class DateTimeService
             $month = (int)substr($date, 3, 2);
             $year = (int)substr($date, 6, 4);
             $date = new \DateTime();
+
             $date->setDate($year,$month,$day);
 
-            if($direction !="prev" and $direction !="next"){
+            if($direction !="prev" && $direction !="next"){
                 return $date;
             }
 

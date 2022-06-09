@@ -5,49 +5,17 @@
 <div class="row">
     <button id="rcp-btn" type="button" class="p-3 rcp-button">Dodaj status</button>
 </div>
-<h3 class="p-3">Twój grafik pracy</h3>
-<div class="row">
-    <div class="col-10 p-0" style="overflow-x: auto;margin-left: 25px;">
-        <table class="table table-sm table-bordered" style="table-layout: fixed ">
-            <thead class="thead-light">
-            <tr class="rooster-table-head" widht="">
-                {% for date,value in monthDays %}
-                    <th width="80px">{{ value['monthDay'] }} {{ value['day']|trans }}</th>
-                {% endfor %}
-            </tr>
-            </thead>
-            <tbody class="rooster-table-body" data-path="{{ path('addRooster') }}">
-            <tr>
-                {% for shift in shiftsDto %}
-                <td>
-                    {% set day = shift.weekday|trans %}
-                    <div style="" class="rooster-wrapper" data-date="{{ shift.date }}"
-                         data-numericDay="{{ shift.weekDayNumber }}"
-                         value="{{ shift.weekDay|trans }}">
-                        <div class="rooster-cell">
-                            {% if shift.timeFrom != null %}
-                                <span class="rooster-time">{{ shift.timeFrom }}-{{ shift.timeTo }}</span>
-                            {% endif %}
-                            {% if shift.countTimeBeforeWork != null %}
-                            <span class="rooster-overtime">+nadgodziny</span>
-                            {% elseif shift.countTimeAfterWork != null %}
-                            <span class="rooster-overtime">+nadgodziny</span>
-                            {% elseif shift.overtimeDutyRooster != null %}
-                                <span class="rooster-overtime">Grafik nadgodz.</span>
-                            {% endif %}
-                        </div>
-                    </div>
-                    {% endfor %}
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-<h3 class="p-3">Twoje statystyki</h3>
-<div class="row">
 
+<div class="js-data-container timesheet">
+    {{ timesheetView |raw }}
 </div>
+<div class="user-statistics js-data-container ">
+    {{ userStatisticView | raw }}
+</div>
+<div class="js-data-container company-statistic">
+    {{ companyStatisticView | raw }}
+</div>
+
 <h3 class="p-3">Ostatnie zdarzenia</h3>
 
 <div class="" id="events">
@@ -59,7 +27,7 @@
                         {{ key |date('j') }}
                          </span>
                     <span class="week-day">
-                        {{ key|date('l') }}
+                        {{ key|date('l') |trans }}
                         </span>
                 </div>
                 <div class="events-list col">
@@ -87,6 +55,19 @@
         {{ include('modals/addStatus_modal.html.twig') }}
     {% endblock %}
     {% block javascript %}
-    {{  parent() }}
-    <script src="{{ asset('js/addStatusModal.js') }}"></script>
+        {{ parent() }}
+        <script src="{{ asset('js/addStatusModal.js') }}"></script>
+        <script>
+            $(document).on('click', '.js-calendar-arrow', function () {
+                var url = $(this).data('path');
+                var cont = $(this).parent().closest('.js-data-container')
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success: function (data) {
+                        cont.html(data);
+                    }
+                })
+            })
+        </script>
     {% endblock %}

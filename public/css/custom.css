@@ -565,9 +565,10 @@
     border-radius: 20px;
     padding: 4px;
 }
-.delete:hover{
+
+.delete:hover {
     border-color: red;
-    color:red
+    color: red
 }
 
 .create {
@@ -577,10 +578,47 @@
     border-radius: 20px;
     padding: 4px;
 }
-.create:hover{
+
+.create:hover {
     border-color: #007bff;
-    color:#007bff;
+    color: #007bff;
 }
+
+.calendar {
+    margin-left: 15px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.calendar #prev a,
+.calendar #next a {
+    padding: 8px 16px;
+}
+
+.userStatistics .stats .label {
+    font-size: 15px;
+    font-weight: 700;
+    color: #686868;
+}
+
+.userStatistics .stats .stats-input {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.userStatistics .stats {
+    border: 1px solid #d3d3d3;
+    padding: 15px;
+    border-radius: 6px;
+}
+.userStatistics .stats p{
+    margin:0px;
+}
+
 
 
 

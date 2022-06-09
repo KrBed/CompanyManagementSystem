@@ -1,0 +1,53 @@
+<h3 class="p-3">Twój grafik pracy</h3>
+<div class="row calendar">
+        <span class="js-calendar-arrow timesheet-prev-link" data-path="{{ path('getMonthTimesheetForUser',{date: actualDate | date('d-m-Y'),direction:"prev"}) }}"><a
+                    href="#"
+                    class="nav-link"><i
+                        class="material-icons no-line-height"
+                        style="font-size:24px;color:#b8babe">keyboard_arrow_left</i></a>
+        </span>
+
+    <span id="timesheet-date" data-date="{{ actualDate | date('d-m-Y') }}"
+          class="nav-link disabled">{{ actualDate|date('F') | trans }} {{ actualDate |date('Y') }}</span>
+    <span  class="js-calendar-arrow timesheet-next-link" data-path="{{ path('getMonthTimesheetForUser',{date: actualDate | date('d-m-Y'),direction:"next"}) }}">
+            <a class="" href="#"><i
+                        class="material-icons no-line-height"
+                        style="font-size:24px;color:#b8babe">keyboard_arrow_right</i></a>
+        </span>
+</div>
+<div class="col-10 p-0" style="overflow-x: auto;margin-left: 25px;">
+    <table class="table table-sm table-bordered" style="table-layout: fixed ">
+        <thead class="thead-light">
+        <tr class="rooster-table-head">
+            {% for date,value in monthDays %}
+                <th width="80px">{{ value['monthDay'] }} {{ value['day']|trans }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody class="rooster-table-body">
+        <tr>
+            {% for shift in shiftsDto %}
+            <td>
+                {% set day = shift.weekday|trans %}
+                <div style="" class="rooster-wrapper" data-date="{{ shift.date }}"
+                     data-numericDay="{{ shift.weekDayNumber }}"
+                     value="{{ shift.weekDay|trans }}">
+                    <div class="rooster-cell">
+                        {% if shift.timeFrom != null %}
+                            <span class="rooster-time">{{ shift.timeFrom }}-{{ shift.timeTo }}</span>
+                        {% endif %}
+                        {% if shift.countTimeBeforeWork != null %}
+                            <span class="rooster-overtime">+nadgodziny</span>
+                        {% elseif shift.countTimeAfterWork != null %}
+                            <span class="rooster-overtime">+nadgodziny</span>
+                        {% elseif shift.overtimeDutyRooster != null %}
+                            <span class="rooster-overtime">Grafik nadgodz.</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

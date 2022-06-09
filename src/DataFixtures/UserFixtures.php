@@ -108,9 +108,9 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         foreach ($shifts as $shift) {
             if ($date  >= $shift->getDate()) {
                 $statusEnter = $this->generateWorkStatus($shift, WorkRegistry::ENTER_WORK);
-                $manager->persist($statusEnter);
+                $shift->addWorkStatus($statusEnter);
                 $statusExit = $this->generateWorkStatus($shift,WorkRegistry::EXIT_WORK);
-                $manager->persist($statusExit);
+                $shift->addWorkStatus($statusExit);
             }
         }
         $manager->flush();
@@ -175,7 +175,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $endDate = new \DateTime();
             $endDate->setDate($year, $month, $day)->setTime($end, 0, 0);
             $date = $this->faker->dateTimeBetween($startDate, $endDate);
-            $workStatus = new WorkStatus($shift->getUser(),WorkRegistry::ENTER_WORK,$date,'RCP');
+            $workStatus = new WorkStatus($shift->getUser(),$shift,WorkRegistry::ENTER_WORK,$date,'RCP');
             return $workStatus;
         } else {
             $start = (int)$endTime->format('H');
@@ -186,14 +186,9 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $endDate = new \DateTime();
             $endDate->setDate($year, $month, $day)->setTime($end, 0, 0);
             $date = $this->faker->dateTimeBetween($startDate, $endDate);
-            $workStatus = new WorkStatus($shift->getUser(),WorkRegistry::EXIT_WORK,$date,'RCP');
+            $workStatus = new WorkStatus($shift->getUser(),$shift, WorkRegistry::EXIT_WORK,$date,'RCP');
             return $workStatus;
         }
-
-
-
-//        $workStatus = new WorkStatus($shift->getUser(), $status, $date, 'RCP');
-
 
     }
 

@@ -1,0 +1,57 @@
+<h3 class="p-3">Twoje statystyki</h3>
+<div class="row calendar">
+        <span class="js-calendar-arrow"
+              data-path="{{ path('user_statistics',{date: actualDate | date('d-m-Y'),direction:"prev"}) }}"><a
+                    href="#"
+                    class="nav-link"><i
+                        class="material-icons no-line-height"
+                        style="font-size:24px;color:#b8babe">keyboard_arrow_left</i></a>
+        </span>
+
+    <span id="userStatisticDate"  data-date="{{ actualDate | date('d-m-Y') }}"
+          class="nav-link disabled">{{ actualDate|date('F') | trans }} {{ actualDate |date('Y') }}</span>
+    <span class="js-calendar-arrow"
+          data-path="{{ path('user_statistics',{date: actualDate | date('d-m-Y'),direction:"next"}) }}">
+            <a class="" href="#"><i
+                        class="material-icons no-line-height"
+                        style="font-size:24px;color:#b8babe">keyboard_arrow_right</i></a>
+        </span>
+</div>
+<div class="p-3 row userStatistics">
+    <div class="col-2">
+        <div class="stats">
+            <p class="label">{{ 'Czas pracy'|trans }}</p>
+            <p class="stats-input">{{ statistics.totalWorkTime.h }}h {% if statistics.overtime.m != 0 %}{{ statistics.totalWorkTime.m }}m{% endif %}</p>
+        </div>
+    </div>
+    <div class="col-2">
+        <div class="stats">
+            <p class="label">{{ 'Nadgodziny'|trans }}</p>
+            <p class="stats-input">{{ statistics.overtime.h }}h {% if statistics.overtime.m != 0 %}{{ statistics.overtime.m }}m{% endif %}</p>
+        </div>
+    </div>
+
+    <div class="col-2">
+        <div class="stats">
+            <p class="label">{{ 'Spóźnienia, braki normy'|trans }}</p>
+            <p class="stats-input">{{ statistics.lateness.h }}h {% if statistics.lateness.m != 0 %}{{ statistics.lateness.m }}m{% endif %}</p>
+        </div>
+    </div>
+    <div class="col-2">
+        <div class="stats">
+            <p class="label">{{ 'Obecności'|trans }}</p>
+            <p class="stats-input">{{ statistics.presence }} {{ 'dni'|trans }}</p>
+
+        </div>
+    </div>
+    <div class="col-2">
+        <div class="stats">
+            <p class="label">{{ 'Nieobecności'|trans }}</p>
+            <p class="stats-input">{{ statistics.absence }} {{ 'dni'|trans }}</p>
+
+        </div>
+    </div>
+
+
+
+</div>

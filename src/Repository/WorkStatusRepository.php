@@ -19,6 +19,25 @@ class WorkStatusRepository extends ServiceEntityRepository
         parent::__construct($registry, WorkStatus::class);
     }
 
+    /**
+     * @param $user
+     * @param $dateFrom
+     * @param $dateTo
+     * @return int|mixed|string
+     */
+    public function findWorkStatusByDate($user, $dateFrom, $dateTo){
+        return $this->createQueryBuilder('w')
+            ->andWhere('w.user = :val')
+            ->andWhere('w.date >= :dateFrom')
+            ->setParameter('dateFrom',$dateFrom)
+            ->andWhere('w.date <= :dateTo')
+            ->setParameter('dateTo',$dateTo)
+            ->setParameter('val', $user->getId())
+            ->orderBy('w.date', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return WorkStatus[] Returns an array of WorkStatus objects
     //  */

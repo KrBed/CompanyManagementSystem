@@ -93,6 +93,7 @@ class ShiftService
         $daysInMonth = DateTimeService::getDaysInMonth($date);
 
         $shifts = $this->shiftRepository->findUserShiftsByDate($user, $dateFrom, $dateTo);
+
         if (count($shifts) != 0) {
             foreach ($daysInMonth as $key => $value) {
                 $shiftDto = new ShiftDto();
@@ -126,13 +127,13 @@ class ShiftService
     {
         $shifts = [];
         foreach ($timesheets as $timesheet) {
-
+            dump($timesheet);
             $dayFrom = (int)substr($timesheet['dateFrom'], 0, 2);
             $dayTo = (int)substr($timesheet['dateTo'], 0, 2);
             $month = (int)substr($timesheet['dateFrom'], 3, 2);
             $year = (int)substr($timesheet['dateFrom'], 6, 4);
             $workingDays = $timesheet['weekDays'];
-
+            dump($workingDays);
             $startDate = new \DateTime();
             $startDate->setDate($year, $month, $dayFrom)->setTime(0, 0, 0, 0);
             $endDate = new \DateTime();
@@ -143,9 +144,12 @@ class ShiftService
             $user = $this->userRepository->findOneBy(array('id' => $timesheet['userId']));
 
             for ($i = $dayFrom; $i <= $dayTo; $i++) {
+
                 $date = new \DateTime();
                 $dayOfWeek = $date->setDate($year, $month, $i)->format('w');
-                if (in_array((int)$dayOfWeek, $workingDays, true)) {
+
+                if (in_array((int)$dayOfWeek, $workingDays, false)) {
+
                     $shift = new Shift();
                     $shift->setDate($date->setDate($year, $month, $i)->setTime(0, 0, 0, 0));
                     $shift->setUser($user);
@@ -176,9 +180,7 @@ class ShiftService
                         $shift->setOvertimeDutyRooster($timesheet['overtimeDutyRooster']);
                     }
                     $shifts[] = $shift;
-
                 }
-
             }
         }
         return $shifts;

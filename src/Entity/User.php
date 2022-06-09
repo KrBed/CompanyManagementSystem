@@ -83,7 +83,6 @@ class User implements UserInterface
     private $department;
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\PayRate", mappedBy="user",cascade={"persist"})
-
      */
     private $payRates;
 

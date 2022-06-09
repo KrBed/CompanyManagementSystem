@@ -18,7 +18,5 @@ class PositionFixture extends Fixture
             $manager->persist($department);
         }
         $manager->flush();
-
-        $manager->flush();
     }
 }

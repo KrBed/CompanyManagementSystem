@@ -12,12 +12,13 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class WorkStatus
 {
 
-    public function __construct(User $user,string $status,\DateTime $date,string $sendBy)
+    public function __construct(User $user,Shift $shift,string $status,\DateTime $date,string $sendBy)
     {
         $this->user = $user;
         $this->status = $status;
         $this->date = $date;
         $this->sendBy = $sendBy;
+        $this->shift = $shift;
     }
 
     /**
@@ -47,6 +48,11 @@ class WorkStatus
      * @ORM\Column(type="string", length=255)
      */
     private $sendBy;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Shift", inversedBy="workStatuses")
+     */
+    private $shift;
 
     public function getId(): ?int
     {
@@ -97,6 +103,18 @@ class WorkStatus
     public function setSendBy(string $sendBy): self
     {
         $this->sendBy = $sendBy;
+
+        return $this;
+    }
+
+    public function getShift(): ?Shift
+    {
+        return $this->shift;
+    }
+
+    public function setShift(?Shift $shift): self
+    {
+        $this->shift = $shift;
 
         return $this;
     }
