@@ -13,6 +13,8 @@ use App\Service\UserStatisticService;
 use App\ViewModels\WorkStatusDto;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,18 +52,27 @@ class UserController extends AbstractController
 
     /**
      * @param $id
-     * @Route("admin/users/{id}/edit", name="admin_users_edit",methods={"GET"})
+     * @Route("admin/users/{id}/edit", name="admin_users_edit",methods={"GET","POST"}, defaults={"user"=null})
+     * @IsGranted("ROLE_ADMIN")
      */
-    public function edit($id){
+    public function edit(Request $request,UserPasswordEncoderInterface $passwordEncoder, $user,$id){
 
-        $user = $this->userRepository->findOneBy(['id'=>$id]);
+        if($request->get('Method') == 'POST'){
+            $user->setPassword($passwordEncoder->encodePassword($user, $user->getPlainPassword()));
+            $user->setUpdatedAt(new \DateTime('now'));
+            $this->em->persist($user);
+            $this->em->flush();
+        }
 
-        $form = $this->createForm(UserEditFormType::class,$user);
+        $user = $this->userRepository->findOneBy(['id' => $id]);
+
+        $form = $this->createForm(UserEditFormType::class, $user);
 
         return $this->render('user/edit.html.twig',['userForm'=>$form->createView()]);
     }
     /**
      * @Route("admin/users/{id}" , name="admin_users_delete",methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      * @param EntityManagerInterface $em
      * @return Response
      */
@@ -80,6 +91,7 @@ class UserController extends AbstractController
     }
     /**
      * @Route("admin/users/list", name="admin_users_list")
+     * @Security("is_granted('ROLE_ADMIN') and is_granted('ROLE_USER')")
      */
     public function index(Request $request)
     {
@@ -94,6 +106,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("admin/users/new" , name="admin_users_new")
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param EntityManagerInterface $em
      * @param UserPasswordEncoderInterface $passwordEncoder
@@ -132,6 +145,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("admin/users/info/{id}/{date}/{direction}" , name="admin_users_info",defaults={ "date"= 0 , "direction"=0 })
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @throws \Exception
      */
@@ -163,6 +177,7 @@ class UserController extends AbstractController
     }
     /**
      * @Route("user/info/{date}/{direction}" , name="user_info",defaults={ "date"= 0 , "direction"=0 })
+     * @Security("is_granted('ROLE_ADMIN') and is_granted('ROLE_USER')")
      * @param Request $request
      * @throws \Exception
      */
