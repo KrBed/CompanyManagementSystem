@@ -1,0 +1,39 @@
+{% extends "management/management_base.html.twig" %}
+{% block body_columns %}col-12{% endblock %}
+{% block body %}
+<div class="user-statistics js-data-container">
+    {{ statistics | raw }}
+</div>
+    <div class="" id="events">
+    {% for key, status in workStatuses %}
+        <div class="events-container row">
+            <div class="events-date p-3 col">
+                <div class="date-container">
+                         <span class="month-day">
+                        {{ key |date('j') }}
+                         </span>
+                    <span class="week-day">
+                        {{ key|date('l') |trans }}
+                        </span>
+                </div>
+                <div class="events-list col">
+                    <div class="list-container" id="{{ key }}">
+                        {% for status in workStatuses[key] %}
+                            {% if status.name =="Wejście" %}
+                                {% set color = "text-success" %}
+                            {% else %}
+                                {% set color = "text-danger" %}
+                            {% endif %}
+                            <div class="list-element">
+                                <span class="event-time {{ color }}">{{ status.time }} - {{ status.name }}</span>
+                                <span class="user-name">{{ status.userName }}</span>
+                                <span class="department-name">{{ status.department }}</span>
+                                <span class="send-by">Wysłane przez {{ status.sendBy }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

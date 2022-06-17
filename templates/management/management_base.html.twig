@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse" id="">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link disabled" href="#">Management</a>
+                <a class="nav-link disabled" href="#">Zarządzanie</a>
             </li>
             <li id="position" class="nav-item " data-toggle="modal" data-target="#positionModal">
                 <a class="nav-link" data-toggle="tooltip" title="Dodaj stanowisko" data-placement="right" href="#"><i
@@ -25,7 +25,6 @@
 {% block modals %}
     {{ include('modals/position_modal.html.twig') }}
     {{ include('modals/department_modal.html.twig') }}
-
 {% endblock %}
 
 {% block javascript %}

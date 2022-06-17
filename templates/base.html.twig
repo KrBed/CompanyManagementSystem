@@ -54,6 +54,7 @@
                     </div>
                 </a>
             </li>
+            {% if is_granted('ROLE_ADMIN') %}
             <li>
                 <a href="{{ path('management') }}">
                     <div class="icon-wrapper">
@@ -62,6 +63,7 @@
                     </div>
                 </a>
             </li>
+            {% endif %}
             <li>
                 <a href="{{ path('duty_rooster') }}">
                     <div class="icon-wrapper">
@@ -71,7 +73,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ path('duty_rooster') }}">
+                <a href="{{ path('user_info') }}">
                     <div class="icon-wrapper">
                         <i class="material-icons" style="font-size:28px;color:#b8babe">view_list</i>
                         <p class="">Zestawienia</p>
@@ -116,9 +118,8 @@
 
 {% block modals %} {% endblock modals %}
 {% block javascript %}
-<script src = "">< /script>
 
-<script src = "{{ asset('js/jquery.slim.js') }}"></script>
+<script src="{{ asset('js/jquery.slim.js') }}"></script>
 
 <script src="{{ asset('js/jquery.js') }}"></script>
 <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
@@ -126,7 +127,9 @@
 <script src="{{ asset('bootstrap.bundle.js') }}"></script>
 <script src="{{ asset('bootstrap.js') }}"></script>
 <script src="{{ asset('js/jquery.timepicker.min.js') }}"></script>
+{% if is_granted('ROLE_ADMIN') %}
 <script src="{{ asset('js/user.js') }}"></script>
+{% endif %}
 <script>
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()

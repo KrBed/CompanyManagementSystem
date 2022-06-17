@@ -2,3 +2,52 @@
 
 {% block title %}Zarządzanie{% endblock %}
 
+ {% block body %}
+         <div id="user-table-container" class="row">
+             <table class="table table-hover table-sm table-bordered float-left" style="table-layout: fixed">
+                 <div class="bg-danger">
+                     <thead>
+                     <tr class="users-table-head">
+                         <th scope="col" class="head-margin-column pl-4"></th>
+                         <th scope="col" class="pl-4">Imię i nazwisko</th>
+                         <th scope="col" class="pl-4">Dział</th>
+                         <th scope="col" class="pl-4">Telefon</th>
+                         <th scope="col" class="pl-4">Email</th>
+                         <th scope="col" class="pl-4">Stanowisko</th>
+                         <th class="head-margin-column"></th>
+                     </tr>
+                     </thead>
+                 </div>
+                 <tbody class="users-table-body">
+                 {% for user in users %}
+                     <tr class="user-menagement-row" data-user-id="{{ user.id }}" data-info-path="{{  path('admin_users_info',{id: user.id, date: 0, direction: 0}) }}">
+                     <td colspan="2" class="body-first-column pl-3"
+                         style="border-right:0px solid">{{ user.fullName }}</td>
+                     <td class="m-l-2 pl-3">{{ user.department.name }}</td>
+                     <td class="pl-3">{{ user.telephone }}</td>
+                     <td class="m-r-2 pl-3">{{ user.email }}</td>
+                     <td colspan="2" class="body-last-column pl-4" style="border-left:0px solid">
+                         {{ user.position.name }}
+                     </td>
+                 {% endfor %}
+                 </tbody>
+             </table>
+         </div>
+     {% endblock %}
+     {% block department %}
+         <div class="col-3 p-l-14">
+             <div id="departments">
+                 <div class="table-header">
+                     Nazwa działu
+                 </div>
+                 <div class="department-wrapper">
+                     {% for department in departments %}
+                         <div class="alert alert-light dep-item">
+                             {{ department }}
+                         </div>
+                     {% endfor %}
+                 </div>
+             </div>
+         </div>
+ {% endblock %}
+

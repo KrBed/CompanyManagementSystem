@@ -16,6 +16,7 @@
                   <a class="nav-link" href="{{ path('changeRoosterDate',{date: actualDate | date('d-m-Y'),direction:"next"}) }}"><i
                               class="material-icons no-line-height" style="font-size:24px;color:#b8babe">keyboard_arrow_right</i></a>
               </li>
+              {% if is_granted('ROLE_ADMIN') %}
               <li class="nav-item" id="addRooster"><a  class="nav-link" data-toggle="tooltip" title="Dodaj grafik" data-placement="right"
                                       href="#"><i
                               class="material-icons no-line-height" style="font-size:24px;color:#b8babe">settings</i></a>
@@ -29,6 +30,7 @@
               <button class="btn btn-sm btn-light" id="publish" disabled>
                  Opublikuj
               </button>
+              {% endif %}
           </ul>
       </div>
   {% endblock navbar_links %}

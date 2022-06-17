@@ -5,11 +5,12 @@
             <li class="nav-item">
                 <a class="nav-link disabled"  href="#">Pracownicy</a>
             </li>
+            {% if is_granted('ROLE_ADMIN') %}
             <li class="nav-item">
                 <a class="nav-link"  data-toggle="tooltip" title="Dodaj pracownika" data-placement="right" href="{{ path('admin_users_new') }}"><i class="material-icons no-line-height" style="font-size:24px;color:#b8babe;">add</i></a>
             </li>
+            {% endif %}
         </ul>
-
     </div>
     </nav>
 {% endblock %}

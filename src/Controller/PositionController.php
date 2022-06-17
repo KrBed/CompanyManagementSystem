@@ -31,6 +31,7 @@ class PositionController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $em, ValidatorInterface $validator)
     {
+
         if ($request->isXmlHttpRequest()) {
             $name = $request->request->get('name');
             $position = new Position();

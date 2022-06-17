@@ -20,7 +20,11 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends Fixture implements DependentFixtureInterface
 {
-    private const USER_ROLES = ['Kierownik' => 'ROLE_KIEROWNIK', 'Księgowość' => 'ROLE_KSIEGOWOSC', 'Użytkownik' => 'ROLE_USER'];
+    private const USER_ROLES = [
+        'Kierownik' => 'ROLE_KIEROWNIK',
+        'Księgowość' => 'ROLE_KSIEGOWOSC',
+        'Użytkownik' => 'ROLE_USER'
+    ];
 
     /**
      * @var Factory
@@ -43,8 +47,12 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
      */
     private $shiftService;
 
-    public function __construct(DepartmentRepository $departmentRepository, PositionRepository $positionRepository, UserPasswordEncoderInterface $passwordEncoder, ShiftService $shiftService)
-    {
+    public function __construct(
+        DepartmentRepository $departmentRepository,
+        PositionRepository $positionRepository,
+        UserPasswordEncoderInterface $passwordEncoder,
+        ShiftService $shiftService
+    ) {
         $this->departmentRepository = $departmentRepository;
         $this->positionRepository = $positionRepository;
         $this->passwordEncoder = $passwordEncoder;
@@ -54,20 +62,26 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $date = new \DateTime('now');
+        $datemonth = new \DateTime('-1 month');
+        $date2months = new \DateTime('-2 month');
         $date->setTime(0, 0, 0);
         $dateWithFirstDayOfActualMonth = DateTimeService::getDateWithFirstDayOfMonth($date);
         $dateWithLastDayOfActualMonth = DateTimeService::getDateWithLastDayOfMonth($date);
+        $dateWithFirstDayOfOneMonth = DateTimeService::getDateWithFirstDayOfMonth($datemonth);
+        $dateWithLastDayOfOneMonth = DateTimeService::getDateWithLastDayOfMonth($datemonth);
+        $dateWithFirstDayOfTwoMonth = DateTimeService::getDateWithFirstDayOfMonth($date2months);
+        $dateWithLastDayOfTwoMonth = DateTimeService::getDateWithLastDayOfMonth($date2months);
 
-        $users = $this->getManyUsers(10, $dateWithFirstDayOfActualMonth);
+        $users = $this->getManyUsers(7, $dateWithFirstDayOfTwoMonth);
 
         $user = new User();
-        $user->setFirstName('Krzysztof');
-        $user->setLastName('Bednarski');
-        $user->setEmail('bednarski1978@gmail.com');
+        $user->setFirstName('Admin');
+        $user->setLastName('Admiński');
+        $user->setEmail('admin@admin.com');
         $user->setNote('Administrator');
         $user->setPostalCode('10-277');
         $user->setRoles(['ROLE_ADMIN']);
-        $user->setPlainPassword('qwerty');
+        $user->setPlainPassword('hasłoadmin');
         $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPlainPassword()));
         $user->setCreatedAt(new \DateTime('now'));
         $user->setUpdatedAt(new \DateTime('now'));
@@ -81,9 +95,60 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $payRate = new PayRate();
         $payRate->setRatePerHour(15);
         $payRate->setOvertimeRate(30);
-        $payRate->setObtainFrom($dateWithFirstDayOfActualMonth);
+        $payRate->setObtainFrom($dateWithFirstDayOfTwoMonth);
         $user->addPayRate($payRate);
+
+        $user2 = new User();
+        $user2->setFirstName('Jarosław');
+        $user2->setLastName('Zapracowany');
+        $user2->setEmail('pracownik@pracownik.com');
+        $user2->setNote('Pracownik');
+        $user2->setPostalCode('10-277');
+        $user2->setRoles(['ROLE_USER']);
+        $user2->setPlainPassword('hasłopracownik');
+        $user2->setPassword($this->passwordEncoder->encodePassword($user, $user->getPlainPassword()));
+        $user2->setCreatedAt(new \DateTime('now'));
+        $user2->setUpdatedAt(new \DateTime('now'));
+        $user2->setStreet('Zamenhofa 2/12');
+        $user2->setTown('Olsztyn');
+        $user2->setTelephone('515147175');
+        $user2->setDepartment($this->departmentRepository->findOneBy(['name' => 'IT']));
+        $user2->setPosition($this->positionRepository->findOneBy(['name' => 'Programista']));
+
+
+        $payRate = new PayRate();
+        $payRate->setRatePerHour(30);
+        $payRate->setOvertimeRate(50);
+        $payRate->setObtainFrom($dateWithFirstDayOfTwoMonth);
+        $user2->addPayRate($payRate);
+
+        $user3 = new User();
+        $user3->setFirstName('Andrzej');
+        $user3->setLastName('ZapracowanyBardziej');
+        $user3->setEmail('pracownik2@pracownik.com');
+        $user3->setNote('Pracownik');
+        $user3->setPostalCode('10-277');
+        $user3->setRoles(['ROLE_USER']);
+        $user3->setPlainPassword('hasłopracownik');
+        $user3->setPassword($this->passwordEncoder->encodePassword($user, $user->getPlainPassword()));
+        $user3->setCreatedAt(new \DateTime('now'));
+        $user3->setUpdatedAt(new \DateTime('now'));
+        $user3->setStreet('Zamenhofa 2/15');
+        $user3->setTown('Olsztyn');
+        $user3->setTelephone('515147175');
+        $user3->setDepartment($this->departmentRepository->findOneBy(['name' => 'IT']));
+        $user3->setPosition($this->positionRepository->findOneBy(['name' => 'Programista']));
+
+
+        $payRate = new PayRate();
+        $payRate->setRatePerHour(30);
+        $payRate->setOvertimeRate(50);
+        $payRate->setObtainFrom($dateWithFirstDayOfTwoMonth);
+        $user3->addPayRate($payRate);
+
         $users[] = $user;
+        $users[] = $user2;
+        $users[] = $user3;
         foreach ($users as $user) {
             $manager->persist($user);
         }
@@ -92,24 +157,32 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 
         $timesheets = array();
         foreach ($users as $user) {
-            $timesheet = Timesheet::createRandomTimesheet($dateWithFirstDayOfActualMonth, $dateWithLastDayOfActualMonth);
-            $timesheet["userId"] = ($user->getId());
+            $timesheetOneMonth = Timesheet::createRandomTimesheet($dateWithFirstDayOfOneMonth,
+                $dateWithLastDayOfOneMonth);
+            $timesheetOneMonth["userId"] = $user->getId();
+            $timesheetTwoMonth = Timesheet::createRandomTimesheet($dateWithFirstDayOfTwoMonth,
+                $dateWithLastDayOfTwoMonth);
+            $timesheetTwoMonth["userId"] = $user->getId();
+            $timesheet = Timesheet::createRandomTimesheet($dateWithFirstDayOfActualMonth,
+                $dateWithLastDayOfActualMonth);
+            $timesheet["userId"] = $user->getId();
+            $timesheets[] = $timesheetOneMonth;
+            $timesheets[] = $timesheetTwoMonth;
             $timesheets[] = $timesheet;
         }
 
         $shifts = $this->shiftService->createShiftFromTimesheets($timesheets);
         foreach ($shifts as $shift) {
-
             $manager->persist($shift);
         }
         $manager->flush();
 
 
         foreach ($shifts as $shift) {
-            if ($date  >= $shift->getDate()) {
+            if ($date >= $shift->getDate()) {
                 $statusEnter = $this->generateWorkStatus($shift, WorkRegistry::ENTER_WORK);
                 $shift->addWorkStatus($statusEnter);
-                $statusExit = $this->generateWorkStatus($shift,WorkRegistry::EXIT_WORK);
+                $statusExit = $this->generateWorkStatus($shift, WorkRegistry::EXIT_WORK);
                 $shift->addWorkStatus($statusExit);
             }
         }
@@ -175,7 +248,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $endDate = new \DateTime();
             $endDate->setDate($year, $month, $day)->setTime($end, 0, 0);
             $date = $this->faker->dateTimeBetween($startDate, $endDate);
-            $workStatus = new WorkStatus($shift->getUser(),$shift,WorkRegistry::ENTER_WORK,$date,'RCP');
+            $workStatus = new WorkStatus($shift->getUser(), $shift, WorkRegistry::ENTER_WORK, $date, 'RCP');
             return $workStatus;
         } else {
             $start = (int)$endTime->format('H');
@@ -186,7 +259,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $endDate = new \DateTime();
             $endDate->setDate($year, $month, $day)->setTime($end, 0, 0);
             $date = $this->faker->dateTimeBetween($startDate, $endDate);
-            $workStatus = new WorkStatus($shift->getUser(),$shift, WorkRegistry::EXIT_WORK,$date,'RCP');
+            $workStatus = new WorkStatus($shift->getUser(), $shift, WorkRegistry::EXIT_WORK, $date, 'RCP');
             return $workStatus;
         }
 

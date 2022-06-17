@@ -7,6 +7,14 @@ $(document).ready(function () {
         $(this).children().last().find('span').remove();
     })
 
+    $('.user-menagement-row').hover( function () {
+        let element = $(this);
+        let path = element.attr('data-info-path')
+        element.children().last().append('<span class="float-right"><a href="' + path + '" class="pr-2"><i style="font-size: 12px" class="material-icons create">visibility</i></a>');
+    },function () {
+        $(this).children().last().find('span').remove();
+    })
+
     $(document).on('click', '#delete', function () {
         let element = $(this);
         let path = element.closest("td").attr('data-delete-path');

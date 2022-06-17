@@ -7,6 +7,11 @@ use App\Entity\User;
 use App\Form\UserEditFormType;
 use App\Form\UserFormType;
 use App\Repository\UserRepository;
+use App\Repository\WorkStatusRepository;
+use App\Service\DateTimeService;
+use App\Service\UserStatisticService;
+use App\ViewModels\WorkStatusDto;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,11 +31,21 @@ class UserController extends AbstractController
      * @var UserRepository
      */
     private $userRepository;
+    /**
+     * @var UserStatisticService
+     */
+    private $userStatsService;
+    /**
+     * @var WorkStatusRepository
+     */
+    private $statusRepository;
 
-    public function __construct(EntityManagerInterface $em, UserRepository $userRepository)
+    public function __construct(EntityManagerInterface $em, UserRepository $userRepository,UserStatisticService $userStatsService,WorkStatusRepository $statusRepository)
     {
         $this->em = $em;
         $this->userRepository = $userRepository;
+        $this->userStatsService = $userStatsService;
+        $this->statusRepository = $statusRepository;
     }
 
     /**
@@ -113,5 +128,68 @@ class UserController extends AbstractController
             }
         }
         return $this->render('user/new.html.twig', ['userForm' => $form->createView()]);
+    }
+
+    /**
+     * @Route("admin/users/info/{id}/{date}/{direction}" , name="admin_users_info",defaults={ "date"= 0 , "direction"=0 })
+     * @param Request $request
+     * @throws \Exception
+     */
+    public function info(Request $request, $id){
+
+        $date = $request->get('date');
+        $direction = $request->get('direction');
+
+        if(empty($date) && empty($direction)){
+           $date = new DateTime('now');
+       }else{
+           $date = DateTimeService::getDateFromDateString($date,$direction);
+       }
+        $user = $this->userRepository->findOneBy(['id'=>$id]);
+        $payRates = $user->getPayRates()->toArray();
+
+        $payRate = $payRates[0];
+
+        $dateFrom = DateTimeService::getDateWithFirstDayOfMonth($date);
+        $dateTo = DateTimeService::getDateWithLastDayOfMonth($date);
+        $statistics = $this->userStatsService->getUserStatistic($user,$date);
+        $workStatuses = $this->statusRepository->findWorkStatusByDate($user,$dateFrom,$dateTo);
+
+        $workStatuses = WorkStatusDto::createManyWorkStatuses($workStatuses);
+
+        $statisticsView = $this->renderView('management/user_statistics.html.twig',['statistics'=>$statistics,'actualDate'=>$date,'user' =>$user,'payRate'=>$payRate]);
+
+       return $this->render('management/user_menagement_statistics.html.twig',['statistics'=>$statisticsView,'user'=>$user,'workStatuses'=>$workStatuses]);
+    }
+    /**
+     * @Route("user/info/{date}/{direction}" , name="user_info",defaults={ "date"= 0 , "direction"=0 })
+     * @param Request $request
+     * @throws \Exception
+     */
+    public function userInfo(Request $request){
+
+        $date = $request->get('date');
+        $direction = $request->get('direction');
+
+        if(empty($date) && empty($direction)){
+            $date = new DateTime('now');
+        }else{
+            $date = DateTimeService::getDateFromDateString($date,$direction);
+        }
+        $user = $this->getUser();
+        $payRates = $user->getPayRates()->toArray();
+
+        $payRate = $payRates[0];
+
+        $dateFrom = DateTimeService::getDateWithFirstDayOfMonth($date);
+        $dateTo = DateTimeService::getDateWithLastDayOfMonth($date);
+        $statistics = $this->userStatsService->getUserStatistic($user,$date);
+        $workStatuses = $this->statusRepository->findWorkStatusByDate($user,$dateFrom,$dateTo);
+
+        $workStatuses = WorkStatusDto::createManyWorkStatuses($workStatuses);
+
+        $statisticsView = $this->renderView('management/user_statistics.html.twig',['statistics'=>$statistics,'actualDate'=>$date,'user' =>$user,'payRate'=>$payRate]);
+
+        return $this->render('management/user_menagement_statistics.html.twig',['statistics'=>$statisticsView,'user'=>$user,'workStatuses'=>$workStatuses]);
     }
 }

@@ -41,6 +41,9 @@ class UserStatisticService
 
         $shifts = $this->shiftRepo->findUserShiftsByDate($user,$dateFrom,$dateTo);
 
+        $payRate = $user->getPayRates()->toArray();
+        $payRate = $payRate[0];
+
         $totalWorkTime = [];
         $overtime = [];
         $lateness = [];
@@ -68,10 +71,10 @@ class UserStatisticService
 
             $date = $shift->getDate()->format('Y-m-d');
             $startTime = $shift->getStartTime()->format('H:i:s');
-//            $endTime = $shift->getEndTime()->format('H:i:s');
+
 
             $timeFrom = DateTime::createFromFormat('Y-m-d H:i:s',$date .' '. $startTime);
-//            $timeTo = DateTime::createFromFormat('Y-m-d H:i:s',$date .' '. $endTime);
+
 
             $startWork = null;
             /**@var $workStatus \App\Entity\WorkStatus */
@@ -100,15 +103,32 @@ class UserStatisticService
             }
 
             $dayWorkTime = $this->sumTimePeriods($dayWorkTime);
+
             $overtime[] = $this->checkOvertimeRate($dayWorkTime);
             $totalWorkTime[] = $dayWorkTime;
         }
+        $overtime = $this->sumTimePeriods($overtime);
+        $totalWorkTime = $this->sumTimePeriods($totalWorkTime);
+
+        $workHours = $totalWorkTime['h'];
+
+        if ($totalWorkTime['m'] > 30) {
+            ++$workHours;
+        }
+        $overtimeHours = $overtime['h'];
+
+        if ($overtime['m'] > 30) {
+            ++$overtimeHours;
+        }
+
+        $payment = round($workHours * $payRate->getRatePerHour(),2) + round($overtimeHours * $payRate->getOvertimeRate(),2);
 
         return ['presence' => $presence,
                 'absence' => $absence,
+                'payment' =>$payment,
                 'lateness'=>$this->sumTimePeriods($lateness),
-                'overtime' => $this->sumTimePeriods($overtime),
-                'totalWorkTime' => $this->sumTimePeriods($totalWorkTime)];
+                'overtime' => $overtime,
+                'totalWorkTime' => $totalWorkTime ];
     }
 
     /**
