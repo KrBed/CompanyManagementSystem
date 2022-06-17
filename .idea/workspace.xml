@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c494bd5e-3b41-42ab-8b84-5e2bc29b33c9" name="Default Changelist" comment="Widok statystyk i nowe fixtures">
-      <change beforePath="$PROJECT_DIR$/.idea/CompanyManagementSystem.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CompanyManagementSystem.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+    <list default="true" id="c494bd5e-3b41-42ab-8b84-5e2bc29b33c9" name="Default Changelist" comment="Update Security">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Timesheet.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Timesheet.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -369,7 +364,7 @@
       <workItem from="1655048509829" duration="719000" />
       <workItem from="1655119262387" duration="608000" />
       <workItem from="1655376288426" duration="13697000" />
-      <workItem from="1655445125341" duration="12369000" />
+      <workItem from="1655445125341" duration="13513000" />
     </task>
     <task id="LOCAL-00001" summary="Crating new User">
       <created>1578312941440</created>
@@ -483,7 +478,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655458884636</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Update Security">
+      <created>1655461435724</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1655461435724</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -512,14 +514,15 @@
     <MESSAGE value="Fake Fixtures" />
     <MESSAGE value="UserMonthStatistics" />
     <MESSAGE value="Widok statystyk i nowe fixtures" />
-    <option name="LAST_COMMIT_MESSAGE" value="Widok statystyk i nowe fixtures" />
+    <MESSAGE value="Update Security" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Security" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/src/Controller/UserController.php</url>
-          <line>65</line>
+          <line>66</line>
           <option name="timeStamp" value="94" />
         </line-breakpoint>
       </breakpoints>
