@@ -228,7 +228,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("user/info/{date}/{direction}" , name="user_info",defaults={ "date"= 0 , "direction"=0 })
-     * @Security("is_granted('ROLE_ADMIN') and is_granted('ROLE_USER')")
+     * @Security("is_granted('ROLE_USER')")
      * @param Request $request
      * @throws \Exception
      */
