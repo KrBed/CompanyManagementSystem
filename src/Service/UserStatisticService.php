@@ -50,6 +50,7 @@ class UserStatisticService
         $presence = 0;
         $absence = 0;
 
+
         /**@var Shift $shift */
         foreach ($shifts as $shift){
             $shiftDate = $shift->getDate()->format('Y-m-d');
@@ -95,6 +96,7 @@ class UserStatisticService
                 }
                 if (!$first) {
                     if($workStatus->getStatus() === WorkRegistry::EXIT_WORK){
+
                         $dayWorkTime[] = $timeFrom->diff($workStatus->getDate())->format('%H:%i:%s');
                     }else{
                         $timeFrom = $startWork;
@@ -137,6 +139,7 @@ class UserStatisticService
      */
     public function sumTimePeriods(array $timePeriods)
     {
+
         $sum = strtotime('00:00:00');
         $totaltime = 0;
 

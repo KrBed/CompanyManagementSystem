@@ -1,10 +1,8 @@
 {% extends 'base.html.twig' %}
 {% block body_columns %}col-12{% endblock body_columns %}
   {% block navbar_links %}
-      <div class="collapse navbar-collapse" id="">
-          <ul class="navbar-nav mr-auto">
               <li class="nav-item">
-                  <a class="nav-link disabled" href="#">Grafik Pracy</a>
+                  <a class="nav-link no-link" href="#">Grafik Pracy</a>
               </li>
                   <li class="nav-item" id="prev"  data-path=""><a href="{{ path('changeRoosterDate',{date: actualDate | date('d-m-Y'),direction:"prev"}) }}" class="nav-link"><i
                                   class="material-icons no-line-height" style="font-size:24px;color:#b8babe">keyboard_arrow_left</i></a>
@@ -17,10 +15,19 @@
                               class="material-icons no-line-height" style="font-size:24px;color:#b8babe">keyboard_arrow_right</i></a>
               </li>
               {% if is_granted('ROLE_ADMIN') %}
-              <li class="nav-item" id="addRooster"><a  class="nav-link" data-toggle="tooltip" title="Dodaj grafik" data-placement="right"
-                                      href="#"><i
-                              class="material-icons no-line-height" style="font-size:24px;color:#b8babe">settings</i></a>
-              </li>
+                  {% if "now"|date('m-Y') > actualDate | date('m-Y')%}
+                      {% set disabled = true %}
+                  {% else%}
+                      {% set disabled = false %}
+                  {%  endif %}
+                  {% if disabled == true %}
+                      <li class="nav-item"><a class="nav-link" href="#"><i class="material-icons no-line-height" style="font-size:24px;color:#b8babe;opacity:0.5">settings</i></a></li>
+                  {% else %}
+                      <li class="nav-item" id="addRooster"><a class="nav-link" data-toggle="tooltip" title="Dodaj grafik" data-placement="right" href="#">
+                              <i class="material-icons no-line-height" style="font-size:24px;color:#b8babe">settings</i></a>
+                      </li>
+                  {% endif %}
+
               <form action="{{ path('duty_rooster', {'date': actualDate|date('d-m-Y')}) }}">
                   <button type="submit" class="btn btn-sm btn-light" id="restore" disabled>
                       Przywróć

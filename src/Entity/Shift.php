@@ -24,12 +24,12 @@ class Shift
     private $date;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time", nullable=true)
      */
     private $startTime;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time",nullable=true)
      */
     private $endTime;
 

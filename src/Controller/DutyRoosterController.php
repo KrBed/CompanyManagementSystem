@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -32,8 +33,12 @@ class DutyRoosterController extends AbstractController
      */
     private $translator;
 
-    public function __construct(UserRepository $userRepository,ShiftService $shiftService,Security $security,TranslatorInterface $translator)
-    {
+    public function __construct(
+        UserRepository $userRepository,
+        ShiftService $shiftService,
+        Security $security,
+        TranslatorInterface $translator
+    ) {
         $this->userRepository = $userRepository;
         $this->shiftService = $shiftService;
         $this->security = $security;
@@ -47,18 +52,31 @@ class DutyRoosterController extends AbstractController
      * @throws \Exception
      * @Route("/duty_rooster/add",name="addRooster",methods={"POST"})
      */
-    public function addRooster(Request $request, EntityManagerInterface $em,ShiftService $shiftService)
+    public function addRooster(Request $request, EntityManagerInterface $em, ShiftService $shiftService)
     {
 
         if ($request->isXmlHttpRequest()) {
             $timesheets = $request->request->get('timesheet');
 
+            $now = new \DateTime('now');
+            $now = $now->format('d-m-Y');
+            $startDate = $timesheets[0]['dateFrom'];
+
+            if(strtotime($now) > strtotime($startDate)){
+                return new JsonResponse(['error' => 'Nie można dodać grafiku dla przeszłej daty'],Response::HTTP_ACCEPTED);
+            }
+
             $shifts = $shiftService->createShiftFromTimesheets($timesheets);
 
-            foreach ($shifts as $shift){
-                $em->persist($shift);
+            try {
+                foreach ($shifts as $shift) {
+                    $em->persist($shift);
+                }
+                $em->flush();
+            } catch (\Exception $e) {
+                throw $e;
             }
-            $em->flush();
+
 
             return new JsonResponse(['data' => $timesheets]);
         }
@@ -83,7 +101,8 @@ class DutyRoosterController extends AbstractController
 
         $monthDays = DateTimeService::getDaysInMonth($actualDate);
         $usersDto = $this->shiftService->getUsersDtoWithShiftsInMonth($users, $actualDate);
-        return $this->render('duty_rooster/index.html.twig', ['monthDays' => $monthDays, 'users' => $users, 'usersDto' => $usersDto, 'actualDate' => $actualDate]);
+        return $this->render('duty_rooster/index.html.twig',
+            ['monthDays' => $monthDays, 'users' => $users, 'usersDto' => $usersDto, 'actualDate' => $actualDate]);
     }
 
     /**
@@ -96,23 +115,26 @@ class DutyRoosterController extends AbstractController
     {
         $changedDate = DateTimeService::getDateFromDateString($date, $direction);
 
-        return $this->redirectToRoute('duty_rooster',[ 'date' => $changedDate->format('d-m-Y')]);
+        return $this->redirectToRoute('duty_rooster', ['date' => $changedDate->format('d-m-Y')]);
     }
+
     /**
      * @param Request $request
      * @return JsonResponse
      * @throws \Exception
      * @Route("/duty_rooster/getMonthTimesheetForUser/{date}/{direction}",name="getMonthTimesheetForUser",methods={"GET"},defaults={"direction"=null})
      */
-    public function getMonthTimesheetForUser(Request $request,ShiftService $shiftService){
+    public function getMonthTimesheetForUser(Request $request, ShiftService $shiftService)
+    {
         $user = $this->security->getUser();
 
-        $monthDays = DateTimeService::getDaysInMonth(\DateTime::createFromFormat("d-m-Y",$request->get('date')));
+        $monthDays = DateTimeService::getDaysInMonth(\DateTime::createFromFormat("d-m-Y", $request->get('date')));
 
-        $actualDate = DateTimeService::getDateFromDateString($request->get('date'),$request->get('direction'));
+        $actualDate = DateTimeService::getDateFromDateString($request->get('date'), $request->get('direction'));
 
-        $shiftsDto = $shiftService->createShiftDtoForUser($user,$actualDate);
-        $shiftsView = $this->renderView('duty_rooster/timesheet.html.twig',['shiftsDto' => $shiftsDto,'monthDays'=>$monthDays,'actualDate'=>$actualDate->format('d-m-Y')]);
+        $shiftsDto = $shiftService->createShiftDtoForUser($user, $actualDate);
+        $shiftsView = $this->renderView('duty_rooster/timesheet.html.twig',
+            ['shiftsDto' => $shiftsDto, 'monthDays' => $monthDays, 'actualDate' => $actualDate->format('d-m-Y')]);
 
         return new JsonResponse([$shiftsView]);
     }

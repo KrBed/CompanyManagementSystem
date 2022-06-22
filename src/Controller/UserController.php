@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Department;
 use App\Entity\User;
-use App\Form\UserEditFormType;
 use App\Form\UserFormType;
 use App\Repository\UserRepository;
 use App\Repository\WorkStatusRepository;
@@ -42,8 +41,12 @@ class UserController extends AbstractController
      */
     private $statusRepository;
 
-    public function __construct(EntityManagerInterface $em, UserRepository $userRepository,UserStatisticService $userStatsService,WorkStatusRepository $statusRepository)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        UserRepository $userRepository,
+        UserStatisticService $userStatsService,
+        WorkStatusRepository $statusRepository
+    ) {
         $this->em = $em;
         $this->userRepository = $userRepository;
         $this->userStatsService = $userStatsService;
@@ -52,24 +55,62 @@ class UserController extends AbstractController
 
     /**
      * @param $id
-     * @Route("admin/users/{id}/edit", name="admin_users_edit",methods={"GET","POST"}, defaults={"user"=null})
+     * @Route("admin/users/{id}/edit", name="admin_users_display",methods={"GET"})
      * @IsGranted("ROLE_ADMIN")
      */
-    public function edit(Request $request,UserPasswordEncoderInterface $passwordEncoder, $user,$id){
+    public function displayUser(Request $request, $id)
+    {
+        $user = $this->userRepository->findOneBy(['id' => $id]);
+        if(!$user){
+            $this->addFlash('Wystapił błąd przy próbie pobrania użytkownika');
+            return $this->redirectToRoute('admin_users_list');
+        }
+        $form = $this->createForm(UserFormType::class, $user);
 
-        if($request->get('Method') == 'POST'){
-            $user->setPassword($passwordEncoder->encodePassword($user, $user->getPlainPassword()));
-            $user->setUpdatedAt(new \DateTime('now'));
-            $this->em->persist($user);
+        return $this->render('user/edit.html.twig', ['userForm' => $form->createView()]);
+    }
+
+    /**
+     * @param $id
+     * @Route("admin/users/{id}/edit", name="admin_users_edit", methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function editUser(Request $request, $id)
+    {
+        $user = $this->userRepository->findOneBy(['id' => $id]);
+        if (!$user) {
+            $this->addFlash('error','Wystapił błąd przy próbie pobrania użytkownika');
+            return $this->redirectToRoute('admin_users_list');
+        }
+        $form = $this->createForm(UserFormType::class);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $user->setFirstName($data->getFirstName());
+            $user->setLastName($data->getLastName());
+            $user->setPosition($data->getPosition());
+            $user->setDepartment($data->getDepartment());
+            $user->setEmail($data->getEmail());
+            $user->setTelephone($data->getTelephone());
+            $user->setStreet($data->getStreet());
+            $user->setPostalCode($data->getPostalCode());
+            $user->setTown($data->getTown());
+            $user->setNote($data->getNote());
+
+            foreach ($data->getPayRates() as $payRate){
+                $user->addPayRate($payRate);
+            }
+            $user->setRoles($data->getRoles());
+
+
             $this->em->flush();
+            $this->addFlash('success','Z powodzeniem zaktualizowano uzytkownika: ' .$user->getFullName() );
         }
 
-        $user = $this->userRepository->findOneBy(['id' => $id]);
-
-        $form = $this->createForm(UserEditFormType::class, $user);
-
-        return $this->render('user/edit.html.twig',['userForm'=>$form->createView()]);
+        return $this->render('user/edit.html.twig', ['userForm' => $form->createView()]);
     }
+
     /**
      * @Route("admin/users/{id}" , name="admin_users_delete",methods={"DELETE"})
      * @IsGranted("ROLE_ADMIN")
@@ -78,17 +119,18 @@ class UserController extends AbstractController
      */
     public function delete($id)
     {
-        $user = $this->userRepository->findOneBy(['id'=>$id]);
-        if($user){
+        $user = $this->userRepository->findOneBy(['id' => $id]);
+        if ($user) {
             $payrates = $user->getPayRates();
-            foreach ($payrates as $payrate){
+            foreach ($payrates as $payrate) {
                 $this->em->remove($payrate);
             }
             $this->em->remove($user);
             $this->em->flush();
-            return new JsonResponse(null,204);
+            return new JsonResponse(null, 204);
         }
     }
+
     /**
      * @Route("admin/users/list", name="admin_users_list")
      * @Security("is_granted('ROLE_ADMIN') and is_granted('ROLE_USER')")
@@ -115,30 +157,35 @@ class UserController extends AbstractController
      */
     public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-
         $form = $this->createForm(UserFormType::class);
         $form->handleRequest($request);
 
         /** @var User $user */
         $user = $form->getData();
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
 
-            $user->setPassword($passwordEncoder->encodePassword($user, $user->getPlainPassword()));
-            $user->setCreatedAt(new \DateTime('now'));
-            $user->setUpdatedAt(new \DateTime('now'));
-            $this->em->persist($user);
-            $this->em->flush();
+            if ($form->isValid()) {
+                $user->setPassword($passwordEncoder->encodePassword($user, $user->getPlainPassword()));
+                $user->setCreatedAt(new \DateTime('now'));
+                $user->setUpdatedAt(new \DateTime('now'));
+                $this->em->persist($user);
+                $this->em->flush();
 
-            if ($user->getId()) {
-                $this->addFlash('success', 'User ' . $user->getFirstName() . $user->getLastName() . ' created');
+                if ($user->getId()) {
+                    $this->addFlash('success', 'User ' . $user->getFirstName() . $user->getLastName() . ' created');
 
-                return $this->redirectToRoute('admin_users_list');
-            } else {
-                $this->addFlash('error', 'Something went wrong user was not created');
+                    return $this->redirectToRoute('admin_users_list');
+                } else {
+                    $this->addFlash('error', 'Coś poszło nie tak, uzytkownik nie został dodany');
 
-                return $this->render('user/new.html.twig', ['userForm' => $form->createView()]);
+                    return $this->render('user/new.html.twig', ['userForm' => $form->createView()]);
+                }
             }
+
+            $this->addFlash('error', 'Sprawdź czy uzupełniono wszystkie wymagane dane');
+
+            return $this->render('user/new.html.twig', ['userForm' => $form->createView()]);
         }
         return $this->render('user/new.html.twig', ['userForm' => $form->createView()]);
     }
@@ -149,47 +196,52 @@ class UserController extends AbstractController
      * @param Request $request
      * @throws \Exception
      */
-    public function info(Request $request, $id){
+    public function info(Request $request, $id)
+    {
 
         $date = $request->get('date');
         $direction = $request->get('direction');
 
-        if(empty($date) && empty($direction)){
-           $date = new DateTime('now');
-       }else{
-           $date = DateTimeService::getDateFromDateString($date,$direction);
-       }
-        $user = $this->userRepository->findOneBy(['id'=>$id]);
+        if (empty($date) && empty($direction)) {
+            $date = new DateTime('now');
+        } else {
+            $date = DateTimeService::getDateFromDateString($date, $direction);
+        }
+        $user = $this->userRepository->findOneBy(['id' => $id]);
         $payRates = $user->getPayRates()->toArray();
 
         $payRate = $payRates[0];
 
         $dateFrom = DateTimeService::getDateWithFirstDayOfMonth($date);
         $dateTo = DateTimeService::getDateWithLastDayOfMonth($date);
-        $statistics = $this->userStatsService->getUserStatistic($user,$date);
-        $workStatuses = $this->statusRepository->findWorkStatusByDate($user,$dateFrom,$dateTo);
+        $statistics = $this->userStatsService->getUserStatistic($user, $date);
+        $workStatuses = $this->statusRepository->findWorkStatusByDate($user, $dateFrom, $dateTo);
 
         $workStatuses = WorkStatusDto::createManyWorkStatuses($workStatuses);
 
-        $statisticsView = $this->renderView('management/user_statistics.html.twig',['statistics'=>$statistics,'actualDate'=>$date,'user' =>$user,'payRate'=>$payRate]);
+        $statisticsView = $this->renderView('management/user_statistics.html.twig',
+            ['statistics' => $statistics, 'actualDate' => $date, 'user' => $user, 'payRate' => $payRate]);
 
-       return $this->render('management/user_menagement_statistics.html.twig',['statistics'=>$statisticsView,'user'=>$user,'workStatuses'=>$workStatuses]);
+        return $this->render('management/user_menagement_statistics.html.twig',
+            ['statistics' => $statisticsView, 'user' => $user, 'workStatuses' => $workStatuses]);
     }
+
     /**
      * @Route("user/info/{date}/{direction}" , name="user_info",defaults={ "date"= 0 , "direction"=0 })
      * @Security("is_granted('ROLE_ADMIN') and is_granted('ROLE_USER')")
      * @param Request $request
      * @throws \Exception
      */
-    public function userInfo(Request $request){
+    public function userInfo(Request $request)
+    {
 
         $date = $request->get('date');
         $direction = $request->get('direction');
 
-        if(empty($date) && empty($direction)){
+        if (empty($date) && empty($direction)) {
             $date = new DateTime('now');
-        }else{
-            $date = DateTimeService::getDateFromDateString($date,$direction);
+        } else {
+            $date = DateTimeService::getDateFromDateString($date, $direction);
         }
         $user = $this->getUser();
         $payRates = $user->getPayRates()->toArray();
@@ -198,13 +250,15 @@ class UserController extends AbstractController
 
         $dateFrom = DateTimeService::getDateWithFirstDayOfMonth($date);
         $dateTo = DateTimeService::getDateWithLastDayOfMonth($date);
-        $statistics = $this->userStatsService->getUserStatistic($user,$date);
-        $workStatuses = $this->statusRepository->findWorkStatusByDate($user,$dateFrom,$dateTo);
+        $statistics = $this->userStatsService->getUserStatistic($user, $date);
+        $workStatuses = $this->statusRepository->findWorkStatusByDate($user, $dateFrom, $dateTo);
 
         $workStatuses = WorkStatusDto::createManyWorkStatuses($workStatuses);
 
-        $statisticsView = $this->renderView('management/user_statistics.html.twig',['statistics'=>$statistics,'actualDate'=>$date,'user' =>$user,'payRate'=>$payRate]);
+        $statisticsView = $this->renderView('management/user_statistics.html.twig',
+            ['statistics' => $statistics, 'actualDate' => $date, 'user' => $user, 'payRate' => $payRate]);
 
-        return $this->render('management/user_menagement_statistics.html.twig',['statistics'=>$statisticsView,'user'=>$user,'workStatuses'=>$workStatuses]);
+        return $this->render('management/user_menagement_statistics.html.twig',
+            ['statistics' => $statisticsView, 'user' => $user, 'workStatuses' => $workStatuses]);
     }
 }

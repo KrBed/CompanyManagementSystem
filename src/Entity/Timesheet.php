@@ -36,7 +36,7 @@ class Timesheet
 
     public static function createTimeFrom()
     {
-        $changes = array(1, 2);
+        $changes = array(1, 2, 3);
 
         $result = array_rand($changes, 1);
         $change = $changes[$result];
@@ -45,6 +45,9 @@ class Timesheet
             return self::FIRST_CHANGE;
         }
         if ($change === 2) {
+            return self::SECOND_CHANGE;
+        }
+        if ($change === 3) {
             return self::SECOND_CHANGE;
         }
     }

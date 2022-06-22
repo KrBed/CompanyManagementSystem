@@ -3,6 +3,8 @@ let timesheets = [];
 let usersToAdd = []
 $(document).ready(function () {
 
+    var todayDate = new Date().toISOString().slice(0, 10);
+
     $.datepicker.setDefaults({
         dateFormat: 'dd-mm-yy'
     }, $.datepicker.regional["pl"]);
@@ -16,6 +18,16 @@ $(document).ready(function () {
         timeFormat: 'H:i',
         interval: 30,
     });
+
+    $('#date-from').on('change',function(){
+        var selectedDate = $(this).val();
+        selectedDate = selectedDate.split("-").reverse().join("-");
+       if(selectedDate <= todayDate){
+           $('#add-new-duty-rooster-btn').attr("disabled",true)
+       }else{
+           $('#add-new-duty-rooster-btn').attr("disabled",false)
+       }
+    })
 
     //dispalying modal
     $("#addRooster").on('click', function () {
@@ -32,6 +44,13 @@ $(document).ready(function () {
         removeErrorMessages();
         $('#addUserRoosterModal').modal('hide');
         $('#addDutyRoosterModal').modal();
+
+        if($('#date-from').val() <= todayDate){
+            $('#add-new-duty-rooster-btn').attr("disabled",true)
+        }else{
+            $('#add-new-duty-rooster-btn').attr("disabled",false)
+        }
+
         let $date = $('#dutyRoosterDate').attr('data-date');
         $day = $date.substr(0, 2);
         $month = $date.substr(3, 2);
@@ -130,7 +149,7 @@ $(document).ready(function () {
             dutyRooster.timeFrom = $('#time-from').val();
             dutyRooster.timeTo = $('#time-to').val();
         } else {
-            dutyRooster.hoursAmount = $('$hours-amount').val();
+            dutyRooster.hoursAmount = $('#hours-amount').val();
         }
 
         dutyRooster.countTimeBeforeWork = $('#count-time-before-work').prop('checked');
@@ -171,38 +190,51 @@ $(document).ready(function () {
             success: function (data) {
                 $('#publish').removeClass('btn-primary').addClass('btn-light').attr("disabled","disabled");
                 $('#restore').removeClass('btn-danger').addClass('btn-light').attr("disabled","disabled");
-            }
+            },
         })
     })
-
-
 })
 
 function validateDutyRoosters(dutyRooster){
-    $hourFrom = parseInt(dutyRooster.timeFrom.substr(0, 2));
-    $minuteFrom = parseInt(dutyRooster.timeFrom.substr(3, 2));
-    $timeFrom = $hourFrom + $minuteFrom;
-    $hourTo = parseInt(dutyRooster.timeTo.substr(0, 2));
-    $minuteTo = parseInt(dutyRooster.timeTo.substr(3, 2));
-    $timeTo = $hourTo + $minuteTo;
-    $hour = $hourTo - $hourFrom;
-    $minutes = $minuteTo - $minuteFrom;
 
-    removeErrorMessages();
-    if($hour < 0  ){
-        $('.rooster-error').prepend('<p class="text-danger pb-2">Czas od nie może być mniejszy niż czas do</p>')
-        return false;
-    }
-    if($hour == 0){
-        if($minuteFrom>= $minuteTo){
-            $('.rooster-error').prepend('<p class="text-danger pb-2">Czas od nie może być mniejszy niż czas do</p>')
+    if(typeof (dutyRooster.hoursAmount) != 'undefined'){
+        let $hoursAmount = parseInt(dutyRooster.hoursAmount.substr(0, 2));
+        if($hoursAmount <= 0  ){
+            $('.rooster-error').prepend('<p class="text-danger pb-2">Ilość godzin jest za niska</p>')
+            return false;
+        }
+    }else{
+        let $hourFrom = parseInt(dutyRooster.timeFrom.substr(0, 2));
+        let $minuteFrom = parseInt(dutyRooster.timeFrom.substr(3, 2));
+        let $timeFrom = $hourFrom + $minuteFrom;
+        let $hourTo = parseInt(dutyRooster.timeTo.substr(0, 2));
+        let $minuteTo = parseInt(dutyRooster.timeTo.substr(3, 2));
+        let $timeTo = $hourTo + $minuteTo;
+        let $hour = $hourTo - $hourFrom;
+        let $minutes = $minuteTo - $minuteFrom;
+
+        var thirdChenge = 0
+        if($hourFrom > $hourTo){
+            var thirdChenge = 24 - $hourFrom;
+            thirdChenge + $hourTo;
+        }
+        if(thirdChenge > 16  ){
+            $('.rooster-error').prepend('<p class="text-danger pb-2">Czas pracy nie może wynosić więcej jak 16 godzin</p>')
+            return false;
+        }
+        if($hour == 0){
+            if($minuteFrom>= $minuteTo){
+                $('.rooster-error').prepend('<p class="text-danger pb-2">Czas od nie może być mniejszy niż czas do</p>')
+                return false;
+            }
+        }
+        if (dutyRooster.timeFrom.length < 5 || dutyRooster.timeTo < 5) {
+            $('.rooster-error').prepend('<p class="text-danger pb-2">Pola czas od i czas do nie mogą być puste</p>')
             return false;
         }
     }
-    if(dutyRooster.timeFrom.length <5 || dutyRooster.timeTo<5){
-        $('.rooster-error').prepend('<p class="text-danger pb-2">Pola czas od i czas do nie mogą być puste</p>')
-        return false;
-    }
+    removeErrorMessages();
+
     if(dutyRooster.weekDays.length == 0){
         $('.rooster-error').prepend('<p class="text-danger pb-2">Dni tygodnia są wymagane</p>')
         return false;
@@ -250,18 +282,20 @@ function createDutyRoosters(listOfUsers, dutyRooster) {
                 let numericDay = cell.find('div').attr('data-numericDay');
                 cell.find('.rooster-cell').remove();
                 var wrapper = cell.find('.rooster-wrapper');
+                var roosterTime =''
+
+                if(typeof(dutyRooster.hoursAmount) != 'undefined') {
+                     roosterTime = '<span class="rooster-time">' + dutyRooster.hoursAmount + ' godzin pracy.</span>'
+                }else{
+                     roosterTime = '<span class="rooster-time">' + dutyRooster.timeFrom + '-' + dutyRooster.timeTo + '</span>'
+                }
                 if (dutyRooster.weekDays.includes(numericDay)) {
                     if (dutyRooster.countTimeBeforeWork == true || dutyRooster.countTimeAfterWork == true) {
-                        wrapper.prepend('<div class="rooster-cell" >' +
-                            '<span class="rooster-time">' + dutyRooster.timeFrom + '-' + dutyRooster.timeTo + '</span>' +
-                            '<span class="rooster-overtime">' + "+nadgodziny" + '</span></div>')
+                        wrapper.prepend('<div class="rooster-cell" >' + roosterTime + '<span class="rooster-overtime">' + "+nadgodziny." + '</span></div>');
                     } else if (dutyRooster.overtimeDutyRooster == true) {
-                        wrapper.prepend('<div class="rooster-cell" >' +
-                            '<span class="rooster-time">' + dutyRooster.timeFrom + '-' + dutyRooster.timeTo + '</span>' +
-                            '<span class="rooster-overtime">' + "grafik nadgodz." + '</span></div>')
+                        wrapper.prepend('<div class="rooster-cell" >' + roosterTime + '<span class="rooster-overtime">' + "grafik nadgodz." + '</span></div>');
                     } else {
-                        wrapper.prepend('<div class="rooster-cell" >' +
-                            '<span class="rooster-time">' + dutyRooster.timeFrom + '-' + dutyRooster.timeTo + '</span></div>')
+                        wrapper.prepend('<div class="rooster-cell" >' + roosterTime);
                     }
 
                 } else {

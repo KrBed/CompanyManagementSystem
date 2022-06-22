@@ -255,9 +255,13 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $start -= 1;
             $end = $start + 2;
             $startDate = new \DateTime();
-            $startDate->setDate($year, $month, $day)->setTime($start, 0, 0);
+                $endDay = $day;
+            if($startTime < $endTime){
+                $endDay ++;
+            }
+            $startDate->setDate($year, $month, $endDay)->setTime($start, 0, 0);
             $endDate = new \DateTime();
-            $endDate->setDate($year, $month, $day)->setTime($end, 0, 0);
+            $endDate->setDate($year, $month, $endDay)->setTime($end, 0, 0);
             $date = $this->faker->dateTimeBetween($startDate, $endDate);
             $workStatus = new WorkStatus($shift->getUser(), $shift, WorkRegistry::EXIT_WORK, $date, 'RCP');
             return $workStatus;

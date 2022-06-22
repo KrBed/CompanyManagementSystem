@@ -619,6 +619,12 @@
     margin:0px;
 }
 
+.navbar-nav .nav-link.no-link:hover{
+	color: rgba(0, 0, 0, 0.5);
+}
+.unactive{
+	display:none;
+}
 
 
 

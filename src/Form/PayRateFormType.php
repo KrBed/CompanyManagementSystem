@@ -15,9 +15,9 @@ class PayRateFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('obtainFrom',DateType::class,['widget'=>'single_text','label_attr'=>['class'=>'col-sm-2 col-form-label']])
-            ->add('ratePerHour',MoneyType::class,['currency'=>'PLN','label_attr'=>['class'=>'col-sm-2 col-form-label']])
-            ->add('overtimeRate',MoneyType::class,['currency'=>'PLN','label_attr'=>['class'=>'col-sm-2 col-form-label']])
+            ->add('obtainFrom',DateType::class,['widget'=>'single_text','attr'=>['class'=>'obtainFrom'],'label_attr'=>['class'=>'col-sm-2 col-form-label']])
+            ->add('ratePerHour',MoneyType::class,['currency'=>'PLN','attr'=>['class'=>'ratePerHour'],'label_attr'=>['class'=>'col-sm-2 col-form-label']])
+            ->add('overtimeRate',MoneyType::class,['currency'=>'PLN','attr'=>['class'=>'overtimeRate'],'label_attr'=>['class'=>'col-sm-2 col-form-label']])
         ;
     }
 

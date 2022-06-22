@@ -17,7 +17,6 @@
                                     <tr class="users-table-head ">
                                         <th scope="col" class="body-first-column">Imię i nazwisko</th>
                                         <th scope="col">Dział</th>
-                                        <th scope="col">Telefon</th>
                                         <th scope="col">Email</th>
                                         <th scope="col" class="body-last-column">Stanowisko</th>
                                     </tr>
@@ -26,10 +25,9 @@
                                 {% for user in users %}
                                     <tr class="timesheet-user-row" data-user-id="{{ user.id }}">
                                         <td hidden data-user-id="{{ user.id }}">{{ user.id }}</td>
-                                        <td  class="body-first-column" style="border-right:0px solid">{{ user.fullName }}</td>
+                                        <td  class="body-first-column" style="border-right:0px solid;max-width: 0;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{ user.fullName }}</td>
                                         <td class="m-l-2">{{ user.department.name }}</td>
-                                        <td>{{ user.telephone }}</td>
-                                        <td class="m-r-2">{{ user.email }}</td>
+                                        <td class="m-r-2" style="max-width: 0;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{ user.email }}</td>
                                         <td class="body-last-column" style="border-left:0px solid">
                                             {{ user.position }}
                                         </td>

@@ -43,6 +43,7 @@ class ShiftService
         foreach ($users as $user) {
 
             $userShifts = $this->userRepository->getUserShiftsInMonth($user, $dateFrom, $dateTo);
+
             /**
              * @var ShiftDto[] $shiftDto
              */
@@ -66,14 +67,19 @@ class ShiftService
             }
             if (count($userShifts) != 0) {
                 foreach ($user->getShifts() as $userShift) {
+
                     $date = $userShift->getDate()->format('d-m-Y');
                     foreach ($shiftsDto as $shiftDto) {
                         if ($date == $shiftDto->getDate()) {
                             $shiftDto->setOvertimeDutyRooster($userShift->getOvertimeDutyRooster());
                             $shiftDto->setCountTimeBeforeWork($userShift->getCountTimeBeforeWork());
                             $shiftDto->setCountTimeAfterWork($userShift->getCountTimeAfterWork());
-                            $shiftDto->setTimeTo($userShift->getEndTime()->format('H:i'));
-                            $shiftDto->setTimeFrom($userShift->getStartTime()->format('H:i'));
+                            if(empty($userShift->getNumberOfHours())){
+                                $shiftDto->setTimeTo($userShift->getEndTime()->format('H:i'));
+                                $shiftDto->setTimeFrom($userShift->getStartTime()->format('H:i'));
+                            }else{
+                                $shiftDto->setNumberOfHours($userShift->getNumberOfHours());
+                            }
                             break;
                         }
                     }
@@ -82,6 +88,7 @@ class ShiftService
             $userDto->setShifts($shiftsDto);
             $usersDto[] = $userDto;
         }
+
         return $usersDto;
     }
 
@@ -127,13 +134,12 @@ class ShiftService
     {
         $shifts = [];
         foreach ($timesheets as $timesheet) {
-            dump($timesheet);
+
             $dayFrom = (int)substr($timesheet['dateFrom'], 0, 2);
             $dayTo = (int)substr($timesheet['dateTo'], 0, 2);
             $month = (int)substr($timesheet['dateFrom'], 3, 2);
             $year = (int)substr($timesheet['dateFrom'], 6, 4);
             $workingDays = $timesheet['weekDays'];
-            dump($workingDays);
             $startDate = new \DateTime();
             $startDate->setDate($year, $month, $dayFrom)->setTime(0, 0, 0, 0);
             $endDate = new \DateTime();
@@ -153,30 +159,35 @@ class ShiftService
                     $shift = new Shift();
                     $shift->setDate($date->setDate($year, $month, $i)->setTime(0, 0, 0, 0));
                     $shift->setUser($user);
-                    if (array_key_exists('timeFrom', $timesheet)) {
+                    if (isset($timesheet['timeFrom'])) {
                         $hourf = (int)substr($timesheet['timeFrom'], 0, 2);
                         $minutesf = (int)substr($timesheet['timeFrom'], 3, 2);
                         $startTime = new \DateTime();
+
                         $startTime->setDate($year, $month, $i)->setTime($hourf, $minutesf, 0, 0);
                         $shift->setStartTime($startTime);
                     }
-                    if (array_key_exists('timeTo', $timesheet)) {
+                    if (isset($timesheet['timeTo'])) {
                         $hourt = (int)substr($timesheet['timeTo'], 0, 2);
                         $minutest = (int)substr($timesheet['timeTo'], 3, 2);
                         $endTime = new \DateTime();
-                        $endTime->setDate($year, $month, $i)->setTime($hourt, $minutest, 0, 0);
+                        $day = $i;
+                        if($timesheet['timeFrom'] > $timesheet['timeTo']){
+                            $day = $i + 1;
+                        }
+                        $endTime->setDate($year, $month, $day)->setTime($hourt, $minutest, 0, 0);
                         $shift->setEndTime($endTime);
                     }
-                    if (array_key_exists('numberOfHours', $timesheet)) {
-                        $shift->setNumberOfHours($timesheet['numberOfHours']);
+                    if (isset($timesheet['hoursAmount'])) {
+                        $shift->setNumberOfHours($timesheet['hoursAmount']);
                     }
-                    if (array_key_exists('countTimeAfterWork', $timesheet)) {
+                    if (isset($timesheet['countTimeAfterWork'])) {
                         $shift->setCountTimeAfterWork($timesheet['countTimeAfterWork']);
                     }
-                    if (array_key_exists('countTimeBeforeWork', $timesheet)) {
+                    if (isset($timesheet['countTimeBeforeWork'])) {
                         $shift->setCountTimeBeforeWork($timesheet['countTimeBeforeWork']);
                     }
-                    if (array_key_exists('overtimeDutyRooster', $timesheet)) {
+                    if (isset($timesheet['overtimeDutyRooster'])) {
                         $shift->setOvertimeDutyRooster($timesheet['overtimeDutyRooster']);
                     }
                     $shifts[] = $shift;

@@ -34,7 +34,7 @@
     <div class="offset-3 col-6">
 
 
-        {{ form_start(userForm) }}
+        {{ form_start(userForm,{'attr': {'id': 'user-add'}}) }}
         <div class="card border-radius-2em mt-5">
             <div class="card-body border-radius-2em">
                 {% set formErrors = userForm.vars.errors.form.getErrors(true) %}
@@ -46,6 +46,9 @@
                         {% endfor %}
                     </ul>
                 {% endif %}
+                <ul class="unactive">
+                    <li class="alert bg-danger text-white">Nie wszystkie wymagane pola zostały uzupełnione !!!</li>
+                </ul>
                 <h5 class="card-title">Nowy Pracownik</h5>
 
                 <div class="error">{{ form_errors(userForm) }}
@@ -141,7 +144,7 @@
                 </div>
             </div>
             <div class="card-footer text-center border-bottom-2em white-bg">
-                <button type="submit" class="btn btn-primary width10em">Zapisz</button>
+                <button type="submit" class="user-add-btn btn btn-primary width10em">Zapisz</button>
             </div>
         </div>
 
@@ -166,6 +169,21 @@
 });
 
     $(document).ready(function() {
+        $('.user-add-btn').on('click',function(){
+            var form = $('#user-add input, #user-add select, #user-add textarea');
+            var payRate = $('.obtainFrom, .ratePerHour, .overtimeRate');
+            if(payRate.length === 0){
+                 $('.unactive').css('display', 'block');
+            }
+            form.each(function(c,v){
+                if ($(v).is(':invalid')){
+                $('.unactive').css('display', 'block');
+                return false;
+                }else{
+                     $('.unactive').css('display', 'none');
+                }
+            })
+        })
         //removes added legend by prototype
         $('legend').remove();
         // taking user payRates

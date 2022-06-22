@@ -5,10 +5,8 @@
     </div>
 {% endblock %}
 {% block navbar_links %}
-    <div class="collapse navbar-collapse" id="">
-        <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link disabled" href="#">Zarządzanie</a>
+                <a class="nav-link no-link" href="#">Zarządzanie</a>
             </li>
             <li id="position" class="nav-item " data-toggle="modal" data-target="#positionModal">
                 <a class="nav-link" data-toggle="tooltip" title="Dodaj stanowisko" data-placement="right" href="#"><i
@@ -18,8 +16,6 @@
                 <a class="nav-link" data-toggle="tooltip" title="Dodaj dział" data-placement="right" href="#"><i
                             class="material-icons no-line-height" style="font-size:24px;color:#b8babe">work</i></a>
             </li>
-        </ul>
-    </div>
 {% endblock navbar_links %}
 
 {% block modals %}

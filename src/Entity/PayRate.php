@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PayRatesRepository")
@@ -21,16 +22,19 @@ class PayRate
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\DateTime
      */
     private $obtainFrom;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
+     * @Assert\Positive
      */
     private $ratePerHour;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
+     *  @Assert\Positive
      */
     private $overtimeRate;
 
