@@ -133,7 +133,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("admin/users/list", name="admin_users_list")
-     * @Security("is_granted('ROLE_ADMIN') and is_granted('ROLE_USER')")
+     * @Security("is_granted('ROLE_USER')")
      */
     public function index(Request $request)
     {
