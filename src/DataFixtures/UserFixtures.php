@@ -106,7 +106,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user2->setPostalCode('10-277');
         $user2->setRoles(['ROLE_USER']);
         $user2->setPlainPassword('hasłopracownik');
-        $user2->setPassword($this->passwordEncoder->encodePassword($user2, $user->getPlainPassword()));
+        $user2->setPassword($this->passwordEncoder->encodePassword($user2, $user2->getPlainPassword()));
         $user2->setCreatedAt(new \DateTime('now'));
         $user2->setUpdatedAt(new \DateTime('now'));
         $user2->setStreet('Zamenhofa 2/12');
@@ -130,7 +130,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user3->setPostalCode('10-277');
         $user3->setRoles(['ROLE_USER']);
         $user3->setPlainPassword('hasłopracownik');
-        $user3->setPassword($this->passwordEncoder->encodePassword($user3, $user->getPlainPassword()));
+        $user3->setPassword($this->passwordEncoder->encodePassword($user3, $user3->getPlainPassword()));
         $user3->setCreatedAt(new \DateTime('now'));
         $user3->setUpdatedAt(new \DateTime('now'));
         $user3->setStreet('Zamenhofa 2/15');

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c494bd5e-3b41-42ab-8b84-5e2bc29b33c9" name="Default Changelist" comment="Poprawa fixtures , grafiku i edycji usera">
+    <list default="true" id="c494bd5e-3b41-42ab-8b84-5e2bc29b33c9" name="Default Changelist" comment="Poprawa fixtures">
+      <change afterPath="$PROJECT_DIR$/.env.dist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataFixtures/UserFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/UserFixtures.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -371,7 +372,9 @@
       <workItem from="1655653173794" duration="9787000" />
       <workItem from="1655749695723" duration="8590000" />
       <workItem from="1655830254313" duration="11787000" />
-      <workItem from="1655876432009" duration="8939000" />
+      <workItem from="1655876432009" duration="9301000" />
+      <workItem from="1655886752175" duration="92000" />
+      <workItem from="1656066697577" duration="919000" />
     </task>
     <task id="LOCAL-00001" summary="Crating new User">
       <created>1578312941440</created>
@@ -506,7 +509,21 @@
       <option name="project" value="LOCAL" />
       <updated>1655884069387</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Poprawa fixtures">
+      <created>1655885787734</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1655885787734</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Poprawa fixtures">
+      <created>1655886797449</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1655886797449</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -536,9 +553,9 @@
     <MESSAGE value="UserMonthStatistics" />
     <MESSAGE value="Widok statystyk i nowe fixtures" />
     <MESSAGE value="Update Security" />
-    <MESSAGE value="Poprawa fixtures" />
     <MESSAGE value="Poprawa fixtures , grafiku i edycji usera" />
-    <option name="LAST_COMMIT_MESSAGE" value="Poprawa fixtures , grafiku i edycji usera" />
+    <MESSAGE value="Poprawa fixtures" />
+    <option name="LAST_COMMIT_MESSAGE" value="Poprawa fixtures" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
